@@ -1,6 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
-
+const IndividualClimb = require("../models/Individual")
+const ClimbingSession = require("../models/Session")
 module.exports = {
   getProfile: async (req, res) => {
     try {
@@ -14,6 +15,14 @@ module.exports = {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
       res.render("feed.ejs", { posts: posts });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getNewSession: async (req, res) => {
+    try {
+      const climbs = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
+      res.render("session.ejs", { climbs: climbs, user: req.user });
     } catch (err) {
       console.log(err);
     }
@@ -45,6 +54,56 @@ module.exports = {
       console.log(err);
     }
   },
+addClimbToSession: async (req, res) => {
+  try {
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    const newClimb = await IndividualClimb.create({
+      typeOfClimb: req.body.typeOfClimb,
+      difficulty: req.body.Difficulty,
+      attempts: req.body.Attempts,
+      top: req.body.Top,
+      image: result.secure_url,
+      cloudinaryId: result.public_id,
+      tags: req.body.Keywords,
+      notes: req.body.Notes,
+      user: req.user.id
+    });
+    // Save the new IndividualClimb document
+    const savedClimb = await newClimb.save();
+
+    // Find the most recent session for the current user
+    const session = await ClimbingSession.findOne(
+      {
+        user: req.user.id,
+      },
+      {},
+      {
+        sort: {
+          createdAt: -1,
+        },
+      }
+    );
+    // If a session exists, add the new IndividualClimb to it
+    if (session) {
+      session.climbs.push(newClimb);
+      await session.save();
+      console.log("Individual climb has been added to the session:", session);
+    }
+    // If no session exists, create a new one and add the new IndividualClimb to it
+    else {
+      const newSession = await ClimbingSession.create({
+        user: req.user.id,
+        climbs: [newClimb],
+      });
+      console.log("New session has been created with the new individual climb:", newSession);
+    }
+    // res.redirect("/profile");
+  } catch (err) {
+    console.log(err);
+  }
+},
   likePost: async (req, res) => {
     try {
       await Post.findOneAndUpdate(
