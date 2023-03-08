@@ -1,25 +1,20 @@
 <%- include('partials/header') -%>
 <h2>Current Session</h2>
-<ul class="individualClimbs">
-  <% climbs.forEach(info => { %>
-          <li class="individualClimb-item-typeOfClimb"><%= info.typeOfClimb %></li>
-          <li class="individualClimb-item-difficulty"><%= info.difficulty %></li>
-          <li class="individualClimb-item-attempts"><%= info.attempts %></li>
-          <li class="individualClimb-item-top"><%= info.top %></li>
-          <li class="individualClimb-item-image"><%= info.image %></li>
-          <li class="individualClimb-item-tags"><%= info.tags %></li>
-          <li class="individualClimb-item-notes"><%= info.notes %></li>
-          <li><a href="/edit/<%= info._id %>" class="edit">
-          <span class="fas fa-edit"></span>
-          </a></li>
-          <td><a href="/delete/<%= info._id %>" class="delete">
-          <span class="fas fa-trash"></span>
-          </a></li>
-  <% }) %>
+<ul>
+  <% for (let i = 0; i < climbs.length; i++) { %>
+    <li>Type of Climb: <%= climbs[i].typeOfClimb %></li>
+    <li>Difficulty: <%= climbs[i].difficulty %></li>
+    <li>Attempts: <%= climbs[i].attempts %></li>
+    <li>Top: <%= climbs[i].top %></li>
+    <li>Image: <img src="<%= climbs[i].image %>"></li>
+    <li>Tags: <%= climbs[i].tags.join(', ') %></li>
+    <li>Notes: <%= climbs[i].notes %></li>
+    <li><a href="/edit/<%= climbs[i]._id %>">Edit</a></li>
+    <li><a href="/delete/<%= climbs[i]._id %>">Delete</a></li>
+  <% } %>
 </ul>
-<form action="/climbing-session" method="POST">
-  <input type="hidden" name="climbs[]" value="<%= JSON.stringify(climbs) %>">
-  <input class="btn btn-primary"type="submit" value="Submit Session">
+<form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
+  <input class="btn btn-primary" type="submit" value="Finalize Session">
 </form>
 <div class="mt-5">
     <h2>Add A New Climb To Start A Session</h2>

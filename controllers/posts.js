@@ -21,12 +21,15 @@ module.exports = {
   },
   getNewSession: async (req, res) => {
     try {
-      const climbs = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
-      res.render("session.ejs", { climbs: climbs, user: req.user });
+      let session = await ClimbingSession.findOne({ user: req.user.id });
+      if (!session) {
+        session = await ClimbingSession.create({ user: req.user.id, climbs: [] });
+      }
+      res.render('session.ejs', { climbs: session.climbs });
     } catch (err) {
       console.log(err);
     }
-  },
+  },  
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
@@ -54,56 +57,68 @@ module.exports = {
       console.log(err);
     }
   },
-addClimbToSession: async (req, res) => {
-  try {
-    // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
+  addClimbToSession: async (req, res) => {
+    try {
+      // Upload image to cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path);
 
-    const newClimb = await IndividualClimb.create({
-      typeOfClimb: req.body.typeOfClimb,
-      difficulty: req.body.Difficulty,
-      attempts: req.body.Attempts,
-      top: req.body.Top,
-      image: result.secure_url,
-      cloudinaryId: result.public_id,
-      tags: req.body.Keywords,
-      notes: req.body.Notes,
-      user: req.user.id
-    });
-    // Save the new IndividualClimb document
-    const savedClimb = await newClimb.save();
-
-    // Find the most recent session for the current user
-    const session = await ClimbingSession.findOne(
-      {
-        user: req.user.id,
-      },
-      {},
-      {
-        sort: {
-          createdAt: -1,
+      const newClimb = await IndividualClimb.create({
+        typeOfClimb: req.body.typeOfClimb,
+        difficulty: req.body.Difficulty,
+        attempts: req.body.Attempts,
+        top: req.body.Top,
+        image: result.secure_url,
+        cloudinaryId: result.public_id,
+        tags: req.body.Keywords,
+        notes: req.body.Notes,
+        user: req.user.id
+      });
+      // Find the most recent session for the current user
+      const session = await ClimbingSession.findOne(
+        {
+          user: req.user.id,
         },
+        {},
+        {
+          sort: {
+            createdAt: -1,
+          },
+        }
+      );
+      // If a session exists, add the new IndividualClimb to it
+      if (session) {
+        session.climbs.push(newClimb);
+        await session.save();
+        console.log("Individual climb has been added to the session:", session);
+      } else { // If no session exists, create a new one and add the new IndividualClimb to it
+        const newSession = await ClimbingSession.create({
+          user: req.user.id,
+          climbs: [newClimb],
+        });
+        console.log("New session has been created with the new individual climb:", newSession);
       }
-    );
-    // If a session exists, add the new IndividualClimb to it
-    if (session) {
-      session.climbs.push(newClimb);
-      await session.save();
-      console.log("Individual climb has been added to the session:", session);
+      res.render("session.ejs", { climbs :session.climbs });
+    } catch (err) {
+      console.log(err);
     }
-    // If no session exists, create a new one and add the new IndividualClimb to it
-    else {
+  },
+  finalizeSession: async (req, res) => {
+    try {
+      // Create a new climbing session
       const newSession = await ClimbingSession.create({
         user: req.user.id,
-        climbs: [newClimb],
+        climbs: [],
       });
-      console.log("New session has been created with the new individual climb:", newSession);
+      console.log("New session has been created:", newSession);
+
+      // Render the climbing session view with the new session's climbs
+      const climbs = newSession.climbs;
+      res.render("session.ejs", { climbs });
+    } catch (err) {
+      console.log(err);
+      res.redirect('/');
     }
-    // res.redirect("/profile");
-  } catch (err) {
-    console.log(err);
-  }
-},
+  },
   likePost: async (req, res) => {
     try {
       await Post.findOneAndUpdate(
