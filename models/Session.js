@@ -11,6 +11,10 @@ const ClimbingSessionSchema = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       required: true
     },
+    username: {
+      type: String,
+      required: true,
+    },
     climbs: [IndividualClimb.schema],
   });
   

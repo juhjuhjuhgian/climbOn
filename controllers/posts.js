@@ -13,8 +13,8 @@ module.exports = {
   },
   getFeed: async (req, res) => {
     try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
+      const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
+      res.render("feed.ejs", { sessions: sessions });
     } catch (err) {
       console.log(err);
     }
@@ -71,7 +71,8 @@ module.exports = {
         cloudinaryId: result.public_id,
         tags: req.body.Keywords,
         notes: req.body.Notes,
-        user: req.user.id
+        user: req.user.id,
+        username: req.user.userName,
       });
       // Find the most recent session for the current user
       const session = await ClimbingSession.findOne(
@@ -90,14 +91,16 @@ module.exports = {
         session.climbs.push(newClimb);
         await session.save();
         console.log("Individual climb has been added to the session:", session);
+        res.render("session.ejs", { climbs :session.climbs });
       } else { // If no session exists, create a new one and add the new IndividualClimb to it
         const newSession = await ClimbingSession.create({
           user: req.user.id,
+          username: req.user.userName,
           climbs: [newClimb],
         });
         console.log("New session has been created with the new individual climb:", newSession);
+        res.render("session.ejs", { climbs : newSession.climbs });
       }
-      res.render("session.ejs", { climbs :session.climbs });
     } catch (err) {
       console.log(err);
     }
@@ -107,6 +110,7 @@ module.exports = {
       // Create a new climbing session
       const newSession = await ClimbingSession.create({
         user: req.user.id,
+        username: req.user.userName,
         climbs: [],
       });
       console.log("New session has been created:", newSession);
