@@ -29,17 +29,19 @@
       </div>
       <div class="mb-3">
         <label for="Difficulty" class="form-label">Difficulty</label>
-        <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty">
+        <input type="range" class="form-control" id="Difficulty" min="0" max="10" name="Difficulty" oninput="updateDifficultyValue()">
+        <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
       </div>
       <div class="mb-3">
         <label for="Attempts" class="form-label">Attempts?</label>
-        <input type="range" class="form-control" id="Attempts" min="1" max="25"  name="Attempts">
+        <input type="range" class="form-control" id="Attempts" min="1" max="15"  name="Attempts" oninput="updateAttemptsValue()">
+        <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
       </div>
       <div class="mb-3">
           <legend>Top?</legend>
-          <input type="checkbox" id="Yes" name="Top">
+          <input type="checkbox" id="Yes" name="TopYes">
           <label for="Yes">Yes</label>
-          <input type="checkbox" id="No" name="Top">
+          <input type="checkbox" id="No" name="TopNo">
           <label for="No">No</label>
       </div>
       <div class="mb-3">

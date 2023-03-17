@@ -21,9 +21,9 @@ module.exports = {
   },
   getNewSession: async (req, res) => {
     try {
-      let session = await ClimbingSession.findOne({ user: req.user.id });
+      let session = await ClimbingSession.findOne({ user: req.user.id, username: req.user.userName });
       if (!session) {
-        session = await ClimbingSession.create({ user: req.user.id, climbs: [] });
+        session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName});
       }
       res.render('session.ejs', { climbs: session.climbs });
     } catch (err) {
@@ -59,21 +59,28 @@ module.exports = {
   },
   addClimbToSession: async (req, res) => {
     try {
+      let imageUrl, cloudinaryId;
+
+    // Check if a file has been uploaded
+    if (req.file) {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+      cloudinaryId = result.public_id;
+    }
 
-      const newClimb = await IndividualClimb.create({
-        typeOfClimb: req.body.typeOfClimb,
-        difficulty: req.body.Difficulty,
-        attempts: req.body.Attempts,
-        top: req.body.Top,
-        image: result.secure_url,
-        cloudinaryId: result.public_id,
-        tags: req.body.Keywords,
-        notes: req.body.Notes,
-        user: req.user.id,
-        username: req.user.userName,
-      });
+    const newClimb = await IndividualClimb.create({
+      typeOfClimb: req.body.typeOfClimb,
+      difficulty: req.body.Difficulty,
+      attempts: req.body.Attempts,
+      top: req.body.TopYes ? 'Yes': 'No',
+      image: imageUrl,
+      cloudinaryId: cloudinaryId,
+      tags: req.body.Keywords,
+      notes: req.body.Notes,
+      user: req.user.id,
+      username: req.user.userName,
+    });
       // Find the most recent session for the current user
       const session = await ClimbingSession.findOne(
         {

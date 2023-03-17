@@ -27,7 +27,7 @@ const IndividualClimbSchema = new mongoose.Schema({
   },
   tags: {
     type: Array,
-    required: true,
+    required: false,
   },
   notes: {
     type: String,
