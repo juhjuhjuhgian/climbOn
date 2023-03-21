@@ -15,6 +15,6 @@ router.post("/finalizeSession/", postsController.finalizeSession);
 
 router.put("/likePost/:id", postsController.likePost);
 
-router.delete("/deletePost/:id", postsController.deletePost);
+router.delete("/deleteIndividualClimb/:id", postsController.deleteIndividualClimb);
 
 module.exports = router;

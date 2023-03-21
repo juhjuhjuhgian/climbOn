@@ -144,18 +144,35 @@ module.exports = {
       console.log(err);
     }
   },
-  deletePost: async (req, res) => {
+  deleteIndividualClimb: async (req, res) => {
     try {
-      // Find post by id
-      let post = await Post.findById({ _id: req.params.id });
+      const individualClimbId = req.params.id;
+  
+      // Check if the IndividualClimb exists
+      const individualClimb = await IndividualClimb.findById(individualClimbId);
+      if (!individualClimb) {
+        throw new Error("IndividualClimb not found");
+      }
+      // Find the ClimbingSession that contains the IndividualClimb
+      const climbingSession = await ClimbingSession.findOne({ "climbs._id": individualClimbId });
+  
+      if (!climbingSession) {
+        throw new Error("ClimbingSession not found");
+      }
       // Delete image from cloudinary
-      await cloudinary.uploader.destroy(post.cloudinaryId);
-      // Delete post from db
-      await Post.remove({ _id: req.params.id });
+      await cloudinary.uploader.destroy(individualClimb.cloudinaryId);
+  
+      // Remove the IndividualClimb from the ClimbingSession
+      climbingSession.climbs = climbingSession.climbs.filter((climb) => climb._id.toString() !== individualClimbId);
+      await climbingSession.save();
+  
+      // Delete the IndividualClimb
+      await individualClimb.remove();
+  
       console.log("Deleted Post");
-      res.redirect("/profile");
+      res.redirect("/session");
     } catch (err) {
-      res.redirect("/profile");
+      console.log(err);
     }
-  },
+  }
 };

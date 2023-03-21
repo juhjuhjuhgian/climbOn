@@ -1,6 +1,6 @@
 <%- include('partials/header') -%>
 <h2>Current Session</h2>
-<ul>
+<ul class="row list-unstyled">
   <% for (let i = 0; i < climbs.length; i++) { %>
     <li>Type of Climb: <%= climbs[i].typeOfClimb %></li>
     <li>Difficulty: <%= climbs[i].difficulty %></li>
@@ -10,7 +10,11 @@
     <li>Tags: <%= climbs[i].tags.join(', ') %></li>
     <li>Notes: <%= climbs[i].notes %></li>
     <li><a href="/edit/<%= climbs[i]._id %>">Edit</a></li>
-    <li><a href="/delete/<%= climbs[i]._id %>">Delete</a></li>
+    <li>
+    <form action="/post/deleteIndividualClimb/<%= climbs[i]._id %>?_method=DELETE" method="POST">
+    <button class="btn btn-primary fa fa-trash" type="submit"></button>
+    </form>
+  </li>
   <% } %>
 </ul>
 <form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
