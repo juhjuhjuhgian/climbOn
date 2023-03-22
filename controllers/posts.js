@@ -21,11 +21,16 @@ module.exports = {
   },
   getNewSession: async (req, res) => {
     try {
-      let session = await ClimbingSession.findOne({ user: req.user.id, username: req.user.userName });
-      if (!session) {
-        session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName});
+      let session = await ClimbingSession.findOne({ user: req.user.id, username: req.user.userName, finalized: false });
+  
+      if (session) {
+        // If a session exists and is not finalized, use the existing session
+        res.render('session.ejs', { climbs: session.climbs });
+      } else {
+        // Otherwise, create a new session
+        session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName, finalized: false });
+        res.render('session.ejs', { climbs: session.climbs });
       }
-      res.render('session.ejs', { climbs: session.climbs });
     } catch (err) {
       console.log(err);
     }
@@ -114,17 +119,27 @@ module.exports = {
   },
   finalizeSession: async (req, res) => {
     try {
-      // Create a new climbing session
-      const newSession = await ClimbingSession.create({
-        user: req.user.id,
-        username: req.user.userName,
-        climbs: [],
-      });
-      console.log("New session has been created:", newSession);
+      // Find the most recent session for the current user
+      const session = await ClimbingSession.findOne(
+        {
+          user: req.user.id,
+          climbs: { $exists: true, $not: {$size: 0} }
+        },
+        {},
+        {
+          sort: {
+            createdAt: -1,
+          },
+        }
+      );
 
-      // Render the climbing session view with the new session's climbs
-      const climbs = newSession.climbs;
-      res.render("session.ejs", { climbs });
+      if (session) {
+        session.finalized = true;
+        await session.save();
+        console.log("Session has been finalized:", session);
+      }
+
+      res.redirect('/feed');
     } catch (err) {
       console.log(err);
       res.redirect('/');
@@ -176,5 +191,5 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
-  }
+  }, 
 };
