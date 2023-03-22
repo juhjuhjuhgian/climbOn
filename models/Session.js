@@ -16,6 +16,12 @@ const ClimbingSessionSchema = new mongoose.Schema({
       required: true,
     },
     climbs: [IndividualClimb.schema],
+
+    likes: {
+      type: Number,
+      default: 0,
+      required: true
+    }
   });
   
   module.exports = mongoose.model("ClimbingSession", ClimbingSessionSchema);

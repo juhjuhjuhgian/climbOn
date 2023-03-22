@@ -1,9 +1,12 @@
+<a class="btn btn-primary" href="/feed">Feed</a>
+<a class="btn btn-primary" href="/logout">Logout</a>
 <%- include('partials/header') -%>
+<h1 class="text-center">My Profile</h1>
 <div class="container">
   <div class="row mt-5">
       <div class="col-6">
           <div>
-              <p><strong>User Name</strong>: <%= user.userName %></p>
+              <p><strong>User</strong>: <%= user.userName %></p>
               <p><strong>Email</strong>: <%= user.email %></p>
               <a href="/session" class="col-3 btn btn-primary">Log A New Session</a>
               <a href="/logout" class="col-3 btn btn-primary">Logout</a>

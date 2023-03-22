@@ -15,14 +15,21 @@
           <p>Total number of climbs in this session: <%= sessions[i].climbs.length %></p>
 
           <% if (sessions[i].climbs && sessions[i].climbs.length > 0) { %>
-            <span>Boulder Problems/Routes</span>
+            <span>Boulder Problems and Routes Pics</span>
             <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
               <% if (sessions[i].climbs[j].image) { %>
                 <img class="img-fluid" src="<%= sessions[i].climbs[j].image %>">
               <% } %>
             <% } %>
           <% } %>
-
+            <form
+              class="col-1"
+              action="/post/likePost/<%= sessions[i]._id %>?_method=PUT"
+              method="POST"
+            >
+              <button class="btn btn-primary fa fa-heart" type="submit"></button>
+            </form>
+            <h3 class="col-3">Likes: <%= sessions[i].likes %></h3>
         </li>
       <% } %>
     </ul>
