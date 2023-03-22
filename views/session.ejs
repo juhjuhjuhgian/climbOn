@@ -1,4 +1,8 @@
+<a class="btn btn-primary" href="/feed">Return to Feed</a>
+<a class="btn btn-primary" href="/profile">My Profile</a></h1>
+<a class="btn btn-primary" href="/logout">Logout</a>
 <%- include('partials/header') -%>
+<h1 class="text-center">Session Logger</h1>
 <h2>Current Session</h2>
 <ul class="row list-unstyled">
   <% for (let i = 0; i < climbs.length; i++) { %>
@@ -21,57 +25,54 @@
   <input class="btn btn-primary" type="submit" value="Finalize Session">
 </form>
 <div class="mt-5">
-    <h2>Add A New Climb To Start A Session</h2>
-    
-    <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
-      <div class="mb-3">
-          <label for="typeOfClimb" class="form-label">Type Of Climb</label>
-          <select id="typeOfClimb" name="typeOfClimb">
-            <option value="Bouldering">Bouldering</option>
-            <option value="Routes">Routes</option>
-          </select>
-      </div>
-      <div class="mb-3">
-        <label for="Difficulty" class="form-label">Difficulty</label>
-        <input type="range" class="form-control" id="Difficulty" min="0" max="10" name="Difficulty" oninput="updateDifficultyValue()">
-        <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
-      </div>
-      <div class="mb-3">
-        <label for="Attempts" class="form-label">Attempts?</label>
-        <input type="range" class="form-control" id="Attempts" min="1" max="15"  name="Attempts" oninput="updateAttemptsValue()">
-        <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
-      </div>
-      <div class="mb-3">
-          <legend>Top?</legend>
-          <input type="checkbox" id="Yes" name="TopYes">
-          <label for="Yes">Yes</label>
-          <input type="checkbox" id="No" name="TopNo">
-          <label for="No">No</label>
-      </div>
-      <div class="mb-3">
-        <label for="imgUpload" class="form-label">Image/Video</label>
-        <input type="file" class="form-control" id="imageUpload" name="file">
-      </div>
-      <div class="mb-3" id="keywords">
-        <label><input type="checkbox" name="Keywords" value="OnSight">On Sight</label>
-        <label><input type="checkbox" name="Keywords" value="Flash">Flash</label>
-        <label><input type="checkbox" name="Keywords" value="Slopers">Slopers</label>
-        <label><input type="checkbox" name="Keywords" value="Crimpy">Crimpy</label>
-        <label><input type="checkbox" name="Keywords" value="Juggy">Juggy</label>
-        <label><input type="checkbox" name="Keywords" value="Overhanging">Overhanging</label>
-        <label><input type="checkbox" name="Keywords" value="Static">Static</label>
-        <label><input type="checkbox" name="Keywords" value="Dynamic">Dynamic</label>
-        <label><input type="checkbox" name="Keywords" value="Dyno">Dyno</label>
-        <label><input type="checkbox" name="Keywords" value="Pockets">Pockets</label>
-        <label><input type="checkbox" name="Keywords" value="Gaston">Gaston</label>
-      </div>
-      <div class="mb-3">
-        <label for="Notes" class="form-label">Notes</label>
-        <textarea class="form-control" id="Notes" name="Notes"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary" value="Submit">Submit Climb</button>
-      <a class="btn btn-primary" href="/feed">Return to Feed</a>
-    </form>
-
-  </div>
+  <h2>Add A New Climb To Start A Session</h2>
+  <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
+    <div class="mb-3">
+        <label for="typeOfClimb" class="form-label">Type Of Climb</label>
+        <select id="typeOfClimb" name="typeOfClimb">
+          <option value="Bouldering">Bouldering</option>
+          <option value="Routes">Routes</option>
+        </select>
+    </div>
+    <div class="mb-3">
+      <label for="Difficulty" class="form-label">Difficulty</label>
+      <input type="range" class="form-control" id="Difficulty" min="0" max="10" name="Difficulty" oninput="updateDifficultyValue()">
+      <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
+    </div>
+    <div class="mb-3">
+      <label for="Attempts" class="form-label">Attempts?</label>
+      <input type="range" class="form-control" id="Attempts" min="1" max="15"  name="Attempts" oninput="updateAttemptsValue()">
+      <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
+    </div>
+    <div class="mb-3">
+        <legend>Top?</legend>
+        <input type="checkbox" id="Yes" name="TopYes">
+        <label for="Yes">Yes</label>
+        <input type="checkbox" id="No" name="TopNo">
+        <label for="No">No</label>
+    </div>
+    <div class="mb-3">
+      <label for="imgUpload" class="form-label">Image/Video</label>
+      <input type="file" class="form-control" id="imageUpload" name="file">
+    </div>
+    <div class="mb-3" id="keywords">
+      <label><input type="checkbox" name="Keywords" value="OnSight">On Sight</label>
+      <label><input type="checkbox" name="Keywords" value="Flash">Flash</label>
+      <label><input type="checkbox" name="Keywords" value="Slopers">Slopers</label>
+      <label><input type="checkbox" name="Keywords" value="Crimpy">Crimpy</label>
+      <label><input type="checkbox" name="Keywords" value="Juggy">Juggy</label>
+      <label><input type="checkbox" name="Keywords" value="Overhanging">Overhanging</label>
+      <label><input type="checkbox" name="Keywords" value="Static">Static</label>
+      <label><input type="checkbox" name="Keywords" value="Dynamic">Dynamic</label>
+      <label><input type="checkbox" name="Keywords" value="Dyno">Dyno</label>
+      <label><input type="checkbox" name="Keywords" value="Pockets">Pockets</label>
+      <label><input type="checkbox" name="Keywords" value="Gaston">Gaston</label>
+    </div>
+    <div class="mb-3">
+      <label for="Notes" class="form-label">Notes</label>
+      <textarea class="form-control" id="Notes" name="Notes"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" value="Submit">Submit Climb</button>
+  </form>
+</div>
   <%- include('partials/footer') -%>

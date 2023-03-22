@@ -160,7 +160,9 @@ module.exports = {
         throw new Error("ClimbingSession not found");
       }
       // Delete image from cloudinary
-      await cloudinary.uploader.destroy(individualClimb.cloudinaryId);
+      if (individualClimb.image && individualClimb.cloudinaryId) {
+        await cloudinary.uploader.destroy(individualClimb.cloudinaryId);
+      }
   
       // Remove the IndividualClimb from the ClimbingSession
       climbingSession.climbs = climbingSession.climbs.filter((climb) => climb._id.toString() !== individualClimbId);
