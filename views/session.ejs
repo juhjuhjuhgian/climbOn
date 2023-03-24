@@ -36,9 +36,10 @@
     </div>
     <div class="mb-3">
       <label for="Difficulty" class="form-label">Difficulty</label>
-      <input type="range" class="form-control" id="Difficulty" min="0" max="10" name="Difficulty" oninput="updateDifficultyValue()">
+      <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty" oninput="updateDifficultyValue()">
       <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
-    </div>
+      <input type="hidden" id="DifficultyInput" name="Difficulty">
+    </div>    
     <div class="mb-3">
       <label for="Attempts" class="form-label">Attempts?</label>
       <input type="range" class="form-control" id="Attempts" min="1" max="15"  name="Attempts" oninput="updateAttemptsValue()">

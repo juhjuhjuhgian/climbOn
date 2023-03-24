@@ -14,7 +14,7 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { sessions: sessions });
+      res.render("feed.ejs", { sessions: sessions, user: req.user });
     } catch (err) {
       console.log(err);
     }
@@ -73,10 +73,10 @@ module.exports = {
       imageUrl = result.secure_url;
       cloudinaryId = result.public_id;
     }
-
+    const difficultyLabel = req.body.Difficulty[1];
     const newClimb = await IndividualClimb.create({
       typeOfClimb: req.body.typeOfClimb,
-      difficulty: req.body.Difficulty,
+      difficulty: difficultyLabel,
       attempts: req.body.Attempts,
       top: req.body.TopYes ? 'Yes': 'No',
       image: imageUrl,
