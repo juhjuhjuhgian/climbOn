@@ -22,7 +22,6 @@ module.exports = {
   getNewSession: async (req, res) => {
     try {
       let session = await ClimbingSession.findOne({ user: req.user.id, username: req.user.userName, finalized: false });
-  
       if (session) {
         // If a session exists and is not finalized, use the existing session
         res.render('session.ejs', { climbs: session.climbs });
@@ -138,8 +137,7 @@ module.exports = {
         await session.save();
         console.log("Session has been finalized:", session);
       }
-
-      res.redirect('/feed');
+      res.redirect("/feed");
     } catch (err) {
       console.log(err);
       res.redirect('/');
