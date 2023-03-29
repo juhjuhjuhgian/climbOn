@@ -17,4 +17,6 @@ router.put("/likePost/:id", postsController.likePost);
 
 router.delete("/deleteIndividualClimb/:id", postsController.deleteIndividualClimb);
 
+router.delete("/deleteSession/:id", postsController.deleteSession);
+
 module.exports = router;

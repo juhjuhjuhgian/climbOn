@@ -127,6 +127,7 @@ getNewSession: async (req, res) => {
         {
           user: req.user.id,
           climbs: { $exists: true, $not: {$size: 0} }
+          //Checks climbs fiels exists and is not an empty array
         },
         {},
         {
@@ -204,4 +205,30 @@ getNewSession: async (req, res) => {
       console.log(err);
     }
   },
+  deleteSession: async (req, res) => {
+    try {
+      // Find session by id
+      const session = await ClimbingSession.findById(req.params.id);
+      if (!session) {
+        throw new Error('Session not found');
+      }
+  
+      // Remove all individual climbs associated with the session
+      await IndividualClimb.deleteMany({ _id: { $in: session.climbs } });
+  
+      // Delete image from cloudinary
+      if (session.cloudinaryId) {
+        await cloudinary.uploader.destroy(session.cloudinaryId);
+      }
+  
+      // Remove the session
+      await ClimbingSession.deleteOne({ _id: session._id });
+  
+      console.log("Session has been deleted.");
+      res.redirect("/feed");
+    } catch (err) {
+      console.log(err);
+      res.redirect("/");
+    }
+  }
 };

@@ -6,16 +6,14 @@
 <div class="container">
   <div class="row justify-content-center mt-5">
     <ul class="row list-unstyled">
-      <% var boulderingDifficultyLabels = [ "VB", "V0", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10" ];
-          var routesDifficultyLabels = [ "5.8", "5.9", "5.9+", "5.10-", "5.10", "5.10+", "5.11-", "5.11", "5.11+", "5.12-",
-          "5.12", "5.12+", "5.13-", "5.13", "5.13+", "5.14-" ]; %>
         <% for(var i=0; i<sessions.length; i++) {%>
         <li class="col-7 justify-content-between mt-5">
           <a href="/post/<%= sessions[i]._id%>">Session Info</a>
           <h3><%= sessions[i].username %></h3>
           <p><%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
           <p>Total number of climbs in this session: <%= sessions[i].climbs.length %></p>
-
+          <!-- Declares variable that holds hardest climb, iterates through each climbs to check if it was topped out-->
+          <!-- Then checks what discipline of climbing and if it's harder than the currest hardest climb-->
           <% let hardestBoulder, hardestRoute %>
           <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
             <% const climb = sessions[i].climbs[j] %>
@@ -27,7 +25,7 @@
               <% } %>
             <% } %>
           <% } %>
-
+          <!-- Checking to see if either variable is truthy, will display difficulty of hardest climb in that category-->
           <% if (hardestBoulder) { %>
             <p>Hardest Boulder: <%= hardestBoulder.difficulty %></p>
           <% } %>
@@ -35,7 +33,7 @@
           <% if (hardestRoute) { %>
             <p>Hardest Route: <%= hardestRoute.difficulty %></p>
           <% } %>
-
+          <!-- Checking to see if there are any climbs, will iterate through climbs and check for images to render -->
           <% if (sessions[i].climbs && sessions[i].climbs.length > 0) { %>
             <span>Boulder Problems and Routes Pics</span>
             <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
@@ -53,7 +51,7 @@
           <p class="col-3">Likes: <%= sessions[i].likes %></p>
 
           <% if (sessions[i].user == user.id) { %>
-            <form action="/post/deletePost/<%= sessions._id %>?_method=DELETE" method="POST" class="col-1">
+            <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
               <button class="btn btn-primary fa fa-trash" type="submit"></button>
             </form>
           <% } %>
