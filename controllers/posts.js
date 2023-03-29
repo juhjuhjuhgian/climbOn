@@ -19,21 +19,25 @@ module.exports = {
       console.log(err);
     }
   },
-  getNewSession: async (req, res) => {
-    try {
-      let session = await ClimbingSession.findOne({ user: req.user.id, username: req.user.userName, finalized: false });
-      if (session) {
-        // If a session exists and is not finalized, use the existing session
-        res.render('session.ejs', { climbs: session.climbs });
-      } else {
-        // Otherwise, create a new session
-        session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName, finalized: false });
-        res.render('session.ejs', { climbs: session.climbs });
-      }
-    } catch (err) {
-      console.log(err);
+getNewSession: async (req, res) => {
+  try {
+    let sessionId = req.session.sessionId;
+    let session;
+
+    if (sessionId) {
+      session = await ClimbingSession.findById(sessionId).lean();
     }
-  },  
+
+    if (!session) {
+      session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName, finalized: false });
+      sessionId = session._id;
+      req.session.sessionId = sessionId;
+    }
+    res.render('session.ejs', { climbs: session.climbs });
+  } catch (err) {
+    console.log(err);
+  }
+},
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
@@ -136,6 +140,8 @@ module.exports = {
         session.finalized = true;
         await session.save();
         console.log("Session has been finalized:", session);
+        // Clear the sessionId from the user's session
+        req.session.sessionId = null;
       }
       res.redirect("/feed");
     } catch (err) {
@@ -172,22 +178,30 @@ module.exports = {
       if (!climbingSession) {
         throw new Error("ClimbingSession not found");
       }
+      // Remove the IndividualClimb from the ClimbingSession
+      climbingSession.climbs = climbingSession.climbs.filter((climb) => climb._id.toString() !== individualClimbId);
+      await climbingSession.save();
+      console.log("Individual climb has been deleted from the session:", climbingSession);
+
+      // Finalize the session if there are no more climbs left
+      if (climbingSession.climbs.length === 0) {
+        climbingSession.finalized = true;
+        await climbingSession.save();
+        console.log("Session has been finalized:", climbingSession);
+      }
+  
       // Delete image from cloudinary
       if (individualClimb.image && individualClimb.cloudinaryId) {
         await cloudinary.uploader.destroy(individualClimb.cloudinaryId);
       }
   
-      // Remove the IndividualClimb from the ClimbingSession
-      climbingSession.climbs = climbingSession.climbs.filter((climb) => climb._id.toString() !== individualClimbId);
-      await climbingSession.save();
-  
       // Delete the IndividualClimb
       await individualClimb.remove();
   
-      console.log("Deleted Post");
+      console.log("Deleted Individual Climb");
       res.redirect("/session");
     } catch (err) {
       console.log(err);
     }
-  }, 
+  },
 };
