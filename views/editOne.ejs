@@ -45,13 +45,13 @@
         <label><input type="checkbox" name="Keywords" value="Dyno" <%= climb.tags.includes('Dyno') ? 'checked' : '' %>>Dyno</label>
         <label><input type="checkbox" name="Keywords" value="Pockets" <%= climb.tags.includes('Pockets') ? 'checked' : '' %>>Pockets</label>
         <label><input type="checkbox" name="Keywords" value="Gaston" <%= climb.tags.includes('Gaston') ? 'checked' : '' %>>Gaston</label>
-        
-          </div>
-          <div class="mb-3">
-            <label for="Notes" class="form-label">Notes</label>
-            <textarea class="form-control" id="Notes" name="Notes"><%= climb.notes %></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" value="Submit">Update Climb</button>
-        </form>
-        <%- include('partials/footer') -%>
+     </div>
+    <div class="mb-3">
+    <label for="Notes" class="form-label">Notes</label>
+    <textarea class="form-control" id="Notes" name="Notes"><%= climb.notes %></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" value="Update Climb">Update Climb</button>
+    <a href="/session" class="btn btn-primary">Cancel</a>
+</form>
+<%- include('partials/footer') -%>
   
