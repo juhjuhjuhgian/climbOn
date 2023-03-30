@@ -3,45 +3,55 @@ const Post = require("../models/Post");
 const IndividualClimb = require("../models/Individual")
 const ClimbingSession = require("../models/Session")
 module.exports = {
-  getProfile: async (req, res) => {
+    getProfile: async (req, res) => {
+      try {
+        const posts = await Post.find({ user: req.user.id });
+        res.render("profile.ejs", { posts: posts, user: req.user });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    getFeed: async (req, res) => {
+      try {
+        const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
+        res.render("feed.ejs", { sessions: sessions, user: req.user });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  getNewSession: async (req, res) => {
     try {
-      const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user });
+      // Check if there is an existing session ID in the user's request object
+      let sessionId = req.session.sessionId;
+      let session;
+      // If there is a session ID, find the corresponding ClimbingSession document in the database
+      if (sessionId) {
+        session = await ClimbingSession.findById(sessionId).lean();
+      }
+      // If there is no session ID or no corresponding ClimbingSession document was found, create a new ClimbingSession document
+      if (!session) {
+        session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName, finalized: false });
+        sessionId = session._id; // Assign the new session's ID to the user's request object
+        req.session.sessionId = sessionId;
+      }
+      // Render session.ejs with climbs data from the retrieved or newly created ClimbingSession document
+      res.render('session.ejs', { climbs: session.climbs });
     } catch (err) {
       console.log(err);
     }
   },
-  getFeed: async (req, res) => {
-    try {
-      const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { sessions: sessions, user: req.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-getNewSession: async (req, res) => {
-  try {
-    let sessionId = req.session.sessionId;
-    let session;
-
-    if (sessionId) {
-      session = await ClimbingSession.findById(sessionId).lean();
-    }
-
-    if (!session) {
-      session = await ClimbingSession.create({ user: req.user.id, climbs: [], username: req.user.userName, finalized: false });
-      sessionId = session._id;
-      req.session.sessionId = sessionId;
-    }
-    res.render('session.ejs', { climbs: session.climbs });
-  } catch (err) {
-    console.log(err);
-  }
-},
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
       res.render("post.ejs", { post: post, user: req.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getEdit: async (req, res) => {
+    try {
+      const climb = await IndividualClimb.findById(req.params.id);
+      res.render("editOne.ejs", { climb: climb });
     } catch (err) {
       console.log(err);
     }
@@ -77,6 +87,7 @@ getNewSession: async (req, res) => {
       cloudinaryId = result.public_id;
     }
     const difficultyLabel = req.body.Difficulty[1];
+    // Create a new IndividualClimb object with the form data and uploaded image data
     const newClimb = await IndividualClimb.create({
       typeOfClimb: req.body.typeOfClimb,
       difficulty: difficultyLabel,
@@ -150,6 +161,58 @@ getNewSession: async (req, res) => {
       res.redirect('/');
     }
   },
+  finalizeEditIndividual: async (req, res) => {
+    try {
+      const individualClimbId = req.params.id;
+  
+      // Find the IndividualClimb document by id
+      const individualClimb = await IndividualClimb.findById(individualClimbId);
+      if (!individualClimb) {
+        throw new Error('IndividualClimb not found');
+      }
+  
+      // Update the IndividualClimb document with new data
+      const difficultyLabel = req.body.Difficulty[1];
+      individualClimb.typeOfClimb = req.body.typeOfClimb;
+      individualClimb.difficulty = difficultyLabel;
+      individualClimb.attempts = req.body.Attempts;
+      individualClimb.top = req.body.TopYes ? 'Yes' : 'No';
+      individualClimb.tags = req.body.Keywords;
+      individualClimb.notes = req.body.Notes;
+      if (req.file) {
+        // If a new image has been uploaded, upload to cloudinary and update IndividualClimb document
+        const result = await cloudinary.uploader.upload(req.file.path);
+        individualClimb.image = result.secure_url;
+        individualClimb.cloudinaryId = result.public_id;
+      }
+      await individualClimb.save();
+  
+      console.log("Individual climb has been updated:", individualClimb);
+  
+      // Find the ClimbingSession document that contains the updated IndividualClimb document
+      const climbingSession = await ClimbingSession.findOne({
+        "climbs._id": individualClimbId
+      });
+      if (!climbingSession) {
+        throw new Error('ClimbingSession not found');
+      }
+  
+      // Update the corresponding climb object in the ClimbingSession document with the updated IndividualClimb document
+      const climbIndex = climbingSession.climbs.findIndex(climb => climb._id.equals(individualClimb._id));
+      if (climbIndex === -1) {
+        throw new Error('ClimbingSession does not contain corresponding IndividualClimb');
+      }
+      //Updates IndividualClimb in the climbs array of ClimbingSession at the index climbIndex.
+      climbingSession.climbs[climbIndex] = individualClimb;
+  
+      await climbingSession.save();
+  
+      console.log("Climbing session has been updated:", climbingSession);
+      res.redirect("/session");
+    } catch (err) {
+      console.log(err);
+    }
+  },
   likePost: async (req, res) => {
     try {
       await ClimbingSession.findOneAndUpdate(
@@ -167,7 +230,7 @@ getNewSession: async (req, res) => {
   deleteIndividualClimb: async (req, res) => {
     try {
       const individualClimbId = req.params.id;
-  
+
       // Check if the IndividualClimb exists
       const individualClimb = await IndividualClimb.findById(individualClimbId);
       if (!individualClimb) {
@@ -175,7 +238,7 @@ getNewSession: async (req, res) => {
       }
       // Find the ClimbingSession that contains the IndividualClimb
       const climbingSession = await ClimbingSession.findOne({ "climbs._id": individualClimbId });
-  
+
       if (!climbingSession) {
         throw new Error("ClimbingSession not found");
       }
@@ -190,15 +253,15 @@ getNewSession: async (req, res) => {
         await climbingSession.save();
         console.log("Session has been finalized:", climbingSession);
       }
-  
+
       // Delete image from cloudinary
       if (individualClimb.image && individualClimb.cloudinaryId) {
         await cloudinary.uploader.destroy(individualClimb.cloudinaryId);
       }
-  
+
       // Delete the IndividualClimb
       await individualClimb.remove();
-  
+
       console.log("Deleted Individual Climb");
       res.redirect("/session");
     } catch (err) {
@@ -212,18 +275,17 @@ getNewSession: async (req, res) => {
       if (!session) {
         throw new Error('Session not found');
       }
-  
+
       // Remove all individual climbs associated with the session
       await IndividualClimb.deleteMany({ _id: { $in: session.climbs } });
-  
+
       // Delete image from cloudinary
       if (session.cloudinaryId) {
         await cloudinary.uploader.destroy(session.cloudinaryId);
       }
-  
+
       // Remove the session
       await ClimbingSession.deleteOne({ _id: session._id });
-  
       console.log("Session has been deleted.");
       res.redirect("/feed");
     } catch (err) {

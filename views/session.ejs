@@ -13,7 +13,11 @@
     <li>Image: <img src="<%= climbs[i].image %>"></li>
     <li>Tags: <%= climbs[i].tags.join(', ') %></li>
     <li>Notes: <%= climbs[i].notes %></li>
-    <li><a href="/edit/<%= climbs[i]._id %>">Edit</a></li>
+    <li>
+      <form action="/post/editIndividualClimb/<%= climbs[i]._id %>" method="GET">
+      <button class="btn btn-primary fa fa-pencil" type="submit"></button>
+      </form>
+    </li>
     <li>
     <form action="/post/deleteIndividualClimb/<%= climbs[i]._id %>?_method=DELETE" method="POST">
     <button class="btn btn-primary fa fa-trash" type="submit"></button>

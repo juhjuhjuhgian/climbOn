@@ -7,11 +7,15 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 //Post Routes - simplified for now
 router.get("/:id", ensureAuth, postsController.getPost);
 
+router.get("/editIndividualClimb/:id", ensureAuth, postsController.getEdit);
+
 router.post("/createPost", upload.single("file"), postsController.createPost);
 
 router.post("/addClimbToSession/", upload.single("file"), postsController.addClimbToSession);
 
 router.post("/finalizeSession/", postsController.finalizeSession);
+
+router.put("/finalizeEditIndividual/:id", upload.single("file"), postsController.finalizeEditIndividual);
 
 router.put("/likePost/:id", postsController.likePost);
 
