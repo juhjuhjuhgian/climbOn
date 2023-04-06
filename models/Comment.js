@@ -5,17 +5,18 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  postId: {
-    type: String,
+  sessionId: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
-  },
-  userId: {
-    type: String,
-    required: true,
+    ref: 'ClimbingSession'
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+  },
+  username: {
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,

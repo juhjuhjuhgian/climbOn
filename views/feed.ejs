@@ -6,9 +6,9 @@
 <div class="container">
   <div class="row justify-content-center mt-5">
     <ul class="row list-unstyled">
-        <% for(var i=0; i<sessions.length; i++) {%>
+      <% for(var i=0; i<sessions.length; i++) {%>
         <li class="col-7 justify-content-between mt-5">
-          <a href="/post/<%= sessions[i]._id%>">Session Info</a>
+          <a href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
           <h3><%= sessions[i].username %></h3>
           <p><%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
           <p>Total number of climbs in this session: <%= sessions[i].climbs.length %></p>
@@ -43,18 +43,38 @@
               <% } %>
             <% } %>
           <% } %>
-
           <form class="col-1" action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
             <button class="btn btn-primary fa fa-heart" type="submit"></button>
+            <p class="col-3">Likes: <%= sessions[i].likes %></p>
           </form>
-
-          <p class="col-3">Likes: <%= sessions[i].likes %></p>
 
           <% if (sessions[i].user == user.id) { %>
             <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
               <button class="btn btn-primary fa fa-trash" type="submit"></button>
             </form>
           <% } %>
+            
+          <div class="mt-5">
+            <h5>Add A Comment</h5>
+              <form action="/post/commentSession/<%= sessions[i]._id %>" method="POST">
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="title" name="comment">
+                  <button type="submit" class="btn btn-primary" value="Comment">Submit</button>
+              </form>
+
+            <ul class="row list-unstyled">
+              <h5>Comments</h5>
+                <% for (let j = 0; j < comments.length; j++) { %>
+                  <% const comment = comments[j] %>
+                  <% if (comment.sessionId.toString() === sessions[i]._id.toString()) { %>
+                    <li>
+                      <small><%= comment.comment %></small>
+                      <small>Submitted by <%= comment.username %></small>
+                    </li>
+                  <% } %>
+                <% } %>
+            </ul>             
+          </div>
         </li>
       <% } %>
     </ul>

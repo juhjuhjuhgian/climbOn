@@ -1,19 +1,21 @@
 const cloudinary = require("../middleware/cloudinary");
 const IndividualClimb = require("../models/Individual")
 const ClimbingSession = require("../models/Session")
+const Comment = require("../models/Comment");
 module.exports = {
     getProfile: async (req, res) => {
       try {
-        const climbs = await ClimbingSession.find({ user: req.user.id });
-        res.render("profile.ejs", {user: req.user });
+        const sessions = await ClimbingSession.find({ user: req.user.id });
+        res.render("profile.ejs", {user: req.user, sessions: sessions });
       } catch (err) {
         console.log(err);
       }
     },
     getFeed: async (req, res) => {
       try {
+        const comments = await Comment.find().sort({ createdAt: "desc" }).lean();
         const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
-        res.render("feed.ejs", { sessions: sessions, user: req.user });
+        res.render("feed.ejs", { sessions: sessions, user: req.user, comments: comments });
       } catch (err) {
         console.log(err);
       }
@@ -139,6 +141,23 @@ module.exports = {
     } catch (err) {
       console.log(err);
       res.redirect('/');
+    }
+  },
+  commentSession: async (req, res) => {
+    try {
+      const session = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
+      const comments = await Comment.find().sort({ createdAt: "desc" }).lean();
+      console.log(req.user)
+      await Comment.create({
+        comment: req.body.comment,
+        user: req.user.id,
+        username: req.user.userName,
+        sessionId: req.params.id
+      });
+      console.log("Comment has been added!");
+      res.redirect("/feed");
+    } catch (err) {
+      console.log(err);
     }
   },
   finalizeEditIndividual: async (req, res) => {
@@ -272,5 +291,5 @@ module.exports = {
       console.log(err);
       res.redirect("/");
     }
-  }
-};
+  },
+}

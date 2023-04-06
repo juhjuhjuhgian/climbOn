@@ -13,6 +13,8 @@ router.post("/addClimbToSession/", upload.single("file"), postsController.addCli
 
 router.post("/finalizeSession/", postsController.finalizeSession);
 
+router.post("/commentSession/:id", postsController.commentSession);
+
 router.put("/finalizeEditIndividual/:id", upload.single("file"), postsController.finalizeEditIndividual);
 
 router.put("/likePost/:id", postsController.likePost);
