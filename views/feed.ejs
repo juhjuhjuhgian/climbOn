@@ -33,16 +33,15 @@
           <% if (hardestRoute) { %>
             <p>Hardest Route: <%= hardestRoute.difficulty %></p>
           <% } %>
-          <!-- Checking to see if there are any climbs, will iterate through climbs and check for images to render -->
-          <% if (sessions[i].climbs && sessions[i].climbs.length > 0) { %>
-            <span>Boulder Problems and Routes Pics</span>
-            <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
-              <% const climb = sessions[i].climbs[j] %>
-              <% if (climb.image) { %>
-                <img class="img-fluid" src="<%= climb.image %>">
-              <% } %>
+
+          <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
+            <% const climb = sessions[i].climbs[j] %>
+            <% if (climb.image) { %>
+              <span>Boulder Problems and Routes Pics</span>
+              <img class="img-fluid" src="<%= climb.image %>">
             <% } %>
           <% } %>
+
           <form class="col-1" action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
             <button class="btn btn-primary fa fa-heart" type="submit"></button>
             <p class="col-3">Likes: <%= sessions[i].likes %></p>

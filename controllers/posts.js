@@ -5,7 +5,7 @@ const Comment = require("../models/Comment");
 module.exports = {
     getProfile: async (req, res) => {
       try {
-        const sessions = await ClimbingSession.find({ user: req.user.id });
+        const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
         res.render("profile.ejs", {user: req.user, sessions: sessions });
       } catch (err) {
         console.log(err);
