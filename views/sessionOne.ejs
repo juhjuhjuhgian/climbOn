@@ -2,12 +2,20 @@
 <a class="btn btn-primary" href="/profile">My Profile</a></h1>
 <a class="btn btn-primary" href="/logout">Logout</a>
 <%- include('partials/header') -%>
-<h2><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> Climbing Session</h2>
-<section>
+<h2 class="text-center"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> <br>Climbing Session</h2>
+<section class="container-lg">
     <input type="hidden" id="sessionsData" value='<%- JSON.stringify(session) %>'> <%/*Hidden input field that contains the stringified JSON data of all sessions*/%>
-    <canvas id="boulderingChart"></canvas>
-    <canvas id="routesChart"></canvas>
-    <canvas id="attemptsChart"></canvas>
+    <div class="row">
+        <div class="col-md-4">
+            <canvas id="boulderingChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="routesChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="attemptsChart"></canvas>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const climbs = JSON.parse('<%- JSON.stringify(session.climbs) %>'); //converts JSON string representation of session.climbs into a object climbs
@@ -39,106 +47,105 @@
           //sets the data to be displayed in the chart and filters out any data points with 0 values. 
           //boulderingData.labels contains the label strings for each data point and boulderingData.data contains the corresponding values.
           datasets: [{
-            data: boulderingData.data.filter(d => d > 0), //specifies the data to be plotted in the chart, filtering out any data points with 0 values.
-            backgroundColor: [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#8e44ad',
-              '#2ecc71',
-              '#e74c3c',
-              '#1abc9c',
-              '#34495e',
-              '#f1c40f',
-              '#9b59b6',
-              '#3498db',
-              '#95a5a6'
-            ]
-          }]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Difficulty Distribution - Bouldering'
-          }
-        }
-      });
+        data: boulderingData.data.filter(d => d > 0), //specifies the data to be plotted in the chart, filtering out any data points with 0 values.
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#8e44ad',
+          '#2ecc71',
+          '#e74c3c',
+          '#1abc9c',
+          '#34495e',
+          '#f1c40f',
+          '#9b59b6',
+          '#3498db',
+          '#95a5a6'
+        ]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Difficulty Distribution - Bouldering'
+      }
+    }
+  });
 
-      //routes pie chart
-      const routesChart = new Chart(document.getElementById('routesChart').getContext('2d'), {
-        type: 'pie',
-        data: {
-          labels: routesData.labels.filter((_, i) => routesData.data[i] > 0),
-          datasets: [{
-            data: routesData.data.filter(d => d > 0),
-            backgroundColor: [
-              '#9b59b6',
-              '#e67e22',
-              '#FF6384',
-              '#27ae60',
-              '#f1c40f',
-              '#3498db',
-              '#36A2EB',
-              '#FFCE56',
-              '#8e44ad',
-              '#2ecc71',
-              '#e74c3c',
-              '#1abc9c',
-              '#34495e',
-              '#95a5a6', 
-              '#7f8c8d',
-              '#bdc3c7'
-            ]
-          }]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Difficulty Distribution - Routes'
-          }
-        }
-      });
+  //routes pie chart
+  const routesChart = new Chart(document.getElementById('routesChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: routesData.labels.filter((_, i) => routesData.data[i] > 0),
+      datasets: [{
+        data: routesData.data.filter(d => d > 0),
+        backgroundColor: [
+          '#9b59b6',
+          '#e67e22',
+          '#FF6384',
+          '#27ae60',
+          '#f1c40f',
+          '#3498db',
+          '#36A2EB',
+          '#FFCE56',
+          '#8e44ad',
+          '#2ecc71',
+          '#e74c3c',
+          '#1abc9c',
+          '#34495e',
+          '#95a5a6', 
+          '#7f8c8d',
+          '#bdc3c7'
+        ]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Difficulty Distribution - Routes'
+      }
+    }
+  });
 
-      //Climbing attempts vs tops bar graph
-      const climb = JSON.parse('<%- JSON.stringify(session.climbs) %>'); //converts JSON string representation of session.climbs into a object climbs
-      let totalAttempts = 0;
-      let totalTops = 0;
-  
-      climb.forEach(climb => {
-        totalAttempts += parseInt(climb.attempts);
-        totalTops += climb.top ? 1 : 0;
-      });
-  
-      const attemptsChart = new Chart(document.getElementById('attemptsChart').getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: ['Total Attempts', 'Total Tops'],
-          datasets: [{
-            label: 'Total Attempts and Tops',
-            data: [totalAttempts, totalTops],
-            backgroundColor: [
-              '#95a5a6',
-              '#FFCE56'
-            ]
-          }]
-        },
-        options: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Total Attempts and Tops'
-          },
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
+  //Climbing attempts vs tops bar graph
+  const climb = JSON.parse('<%- JSON.stringify(session.climbs) %>'); //converts JSON string representation of session.climbs into a object climbs
+  let totalAttempts = 0;
+  let totalTops = 0;
+
+  climb.forEach(climb => {
+    totalAttempts += parseInt(climb.attempts);
+    totalTops += climb.top ? 1 : 0;
+  });
+
+  const attemptsChart = new Chart(document.getElementById('attemptsChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Total Attempts', 'Total Tops'],
+      datasets: [{
+        label: 'Total Attempts and Tops',
+        data: [totalAttempts, totalTops],
+        backgroundColor: [
+          '#95a5a6',
+          '#FFCE56'
+        ]
+      }]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Total Attempts and Tops'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
           }
-        }
-      });
-    </script>
-</section>
+        }]
+      }
+    }
+  });
+</script>
 
 <ul class="row list-unstyled">
     <% for (let i = 0; i < session.climbs.length; i++) { %>
@@ -155,5 +162,4 @@
         <% } %></li>
     <% } %>
 </ul>
-  
 <%- include('partials/footer') -%>
