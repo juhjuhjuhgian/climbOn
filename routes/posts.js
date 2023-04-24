@@ -9,6 +9,8 @@ router.get("/:id", ensureAuth, postsController.getPost);
 
 router.get("/editIndividualClimb/:id", ensureAuth, postsController.getEdit);
 
+router.get("/viewSession/:id", ensureAuth, postsController.getOneSession)
+
 router.post("/addClimbToSession/", upload.single("file"), postsController.addClimbToSession);
 
 router.post("/finalizeSession/", postsController.finalizeSession);

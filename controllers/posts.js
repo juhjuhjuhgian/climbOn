@@ -57,6 +57,14 @@ module.exports = {
       console.log(err);
     }
   },
+  getOneSession: async (req, res) => {
+    try {
+      const session = await ClimbingSession.findById(req.params.id);
+      res.render("sessionOne.ejs", {session: session, user: req.user});
+    } catch (err) {
+      console.log(err);
+    }
+  },
   addClimbToSession: async (req, res) => {
     try {
       let imageUrl, cloudinaryId;
