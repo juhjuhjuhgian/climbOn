@@ -1,13 +1,38 @@
-<a class="btn btn-outline-primary btn-sm" href="/session">New Session</a>
-<a class="btn btn-outline-primary btn-sm" href="/profile">My Profile</a></h1>
-<a class="btn btn-outline-primary btn-sm" href="/logout">Logout</a>
 <%- include('partials/header') -%>
-<h1 class="text-center">Feed</h1>
+<nav class="navbar navbar-expand-md navbar-light">
+  <div class="container-xxl">
+    <a class="navbar-brand p-2">  
+      <span class="fw-bold text-secondary">
+          Climb On - Session Tracker App
+      </span>
+    </a>
+    <!--toggle button for nav-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+    <!--navbar links--> 
+    <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/session">New Session</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<h2 class="text-center text-secondary">Feed</h2>
 <div class="container-lg">
   <ul class="p-0">
     <% for(var i=0; i<sessions.length; i++) {%>
       <li class="text-start row list-unstyled m-3 p-3 shadow rounded">
-        <a class="btn btn-outline-primary btn-sm m-2" href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
+        <a class="btn btn-outline-primary btn-sm col-3 m-2" href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
         <p>Climber: <%= sessions[i].username %></p>
         <p>Session Date: <%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
         <p>Total Climbs This Session: <%= sessions[i].climbs.length %></p>
@@ -35,8 +60,8 @@
         <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
           <% const climb = sessions[i].climbs[j] %>
           <% if (climb.image) { %>
-            <span>Boulder Problems and Routes Pics</span>
-            <img class="img-fluid m-2" src="<%= climb.image %>">
+            <span>Boulder Problems and Routes Pics:</span>
+            <img class="p-2" style="width: 50%" src="<%= climb.image %>">
           <% } %>
         <% } %>
 
@@ -46,7 +71,7 @@
               <button class="btn btn-primary fa fa-trash me-2" type="submit"></button>
             </form>
           <% } %>
-          <form class=action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
+          <form action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
             <button class="btn btn-primary fa fa-heart" type="submit"></button>
           </form>
         </div>
