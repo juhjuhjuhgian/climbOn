@@ -5,11 +5,12 @@
       <span class="fw-bold text-secondary">
           Climb On - Session Tracker App
       </span>
+          <!--toggle button for nav-->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> 
     </a>
-    <!--toggle button for nav-->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> 
+
     <!--navbar links--> 
     <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
       <ul class="navbar-nav">
@@ -32,7 +33,7 @@
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <% for(var i=0; i<sessions.length; i++) {%>
       <div class="col mb-4 mt-4" style="max-width: 500px; width: 100%; margin: 0 auto;">        
-        <div class="card border-dark">
+        <div class="card card-feed border-dark">
           <div class="card-header d-flex justify-content-between align-items-center">
             <div class="col-6">
               <h5 class="card-title m-0 text-capitalize">Climber: <%= sessions[i].username %></h5>
@@ -106,15 +107,15 @@
           <!--card footer-->
           <section class="card-footer">
             <div class="row">
-              <div class="col-md-6 pt-2">
+              <div class="col-md-6 pt-3">
                 <form action="/post/commentSession/<%= sessions[i]._id %>" method="POST">
                   <div class="btn-group pb-3">
-                    <input type="text" class="form-control" id="title" name="comment" placeholder="Add Comment">
+                    <input type="text" class="form-control" id="title" name="comment" placeholder="Comment">
                     <button type="submit" class="btn btn-primary" value="Comment">Submit</button>
                   </div>
                 </form>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 p-2">
                 <div class="accordion" id="accordion-comments-<%= i %>">
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-comments-<%= i %>">

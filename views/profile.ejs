@@ -1,17 +1,35 @@
-<a class="btn btn-primary" href="/feed">Feed</a>
-<a class="btn btn-primary" href="/logout">Logout</a>
 <%- include('partials/header') -%>
-<h1 class="text-center">My Profile</h1>
+<nav class="navbar navbar-expand-md navbar-light">
+  <div class="container-xxl">
+    <a class="navbar-brand p-2">  
+      <span class="fw-bold text-secondary">
+          Climb On - Session Tracker App
+      </span>
+          <!--toggle button for nav-->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> 
+    </a>
+
+    <!--navbar links--> 
+    <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/session">New Session</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/feed">Feed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h2 class="text-start text-secondary fw-normal text-capitalize h2-profile"><%= user.userName %>'s Profile</h2>
 <div class="container">
   <div class="row mt-5">
-    <div class="col-6">
-      <div>
-        <p><strong>User</strong>: <%= user.userName %></p>
-        <p><strong>Email</strong>: <%= user.email %></p>
-        <a href="/session" class="col-3 btn btn-primary">Log A New Session</a>
-        <a href="/logout" class="col-3 btn btn-primary">Logout</a>
-      </div>
-    </div>
 
     <input type="hidden" id="sessionsData" value='<%- JSON.stringify(sessions) %>'> <%/*Hidden input field that contains the stringified JSON data of all sessions*/%>
     <section>
@@ -66,65 +84,97 @@
       </script>
     </section>
 
-    <div class="container">
+    <div class="container-profile">
       <div class="row justify-content-center mt-5">
-        <ul class="row list-unstyled">
-          <% for(var i=0; i<sessions.length; i++) {%>
-            <% if (sessions[i].user == user.id) { %>
-              <li class="col-7 justify-content-between mt-5">
-                <a href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
-                <p><%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
-                <p>Total number of climbs in this session: <%= sessions[i].climbs.length %></p>
-                <!-- Declares variable that holds hardest climb, iterates through each climbs to check if it was topped out-->
-                <!-- Then checks what discipline of climbing and if it's harder than the currest hardest climb-->
-                <% let hardestBoulder, hardestRoute %>
-                <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
-                  <% const climb = sessions[i].climbs[j] %>
-                  
-                  <% if (climb.top === 'Yes') { %>
-                    <% if (climb.typeOfClimb === 'Bouldering' && (!hardestBoulder || climb.difficulty > hardestBoulder.difficulty)) { %>
-                      <% hardestBoulder = climb %>
-                    <% } else if (climb.typeOfClimb === 'Routes' && (!hardestRoute || climb.difficulty > hardestRoute.difficulty)) { %>
-                      <% hardestRoute = climb %>
-                    <% } %>
+        <% for(var i=0; i<sessions.length; i++) {%>
+          <% if (sessions[i].user == user.id) { %>
+            <div class="card-profile mb-3">
+              <div class="row g-0">
+                <div class="col-md-4 mt-3">
+                  <% const tagSet = new Set() %> <!-- Creates a new Set object -->
+                  <% const images = sessions[i].climbs.filter(climb => climb.image).map(climb => climb.image) %>
+                  <% if (images.length === 0) { %>
+                    <img src="/imgs/Event_StillClosed.jpeg" class="img-fluid rounded-start profileImgs">
+                  <% } else if (images.length === 1) { %>
+                    <img src="<%= images[0] %>" class="img-fluid rounded-start profileImgs">
+                  <% } else if (images.length > 1) { %>
+                    <!-- carousel code -->
+                    <div id="carousel<%= i %>" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <% for (var j = 0; j < images.length; j++) { %>
+                          <div class="carousel-item <% if (j === 0) { %>active<% } %>">
+                            <img src="<%= images[j] %>" class="d-block w-100 rounded-start profileImgs" alt="...">
+                          </div>
+                        <% } %>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carousel<%= i %>" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carousel<%= i %>" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
                   <% } %>
-                <% } %>
-                <!-- Checking to see if either variable is truthy, will display difficulty of hardest climb in that category-->
-                <% if (hardestBoulder) { %>
-                  <p>Hardest Boulder: <%= hardestBoulder.difficulty %></p>
-                <% } %>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <div class="card-header d-flex justify-content-between align-items-center">
 
-                <% if (hardestRoute) { %>
-                  <p>Hardest Route: <%= hardestRoute.difficulty %></p>
-                <% } %>
-                  
-                <p>Likes: <%= sessions[i].likes %></p>
-                
-                <% const tagSet = new Set() %> <!-- Creates a new Set object -->
-                  <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
-                  <% const climb = sessions[i].climbs[j] %> 
-                    <% for (var k = 0; k < climb.tags.length; k++) { %>
-                      <% const tag = climb.tags[k] %>
+                      <div class="col-12 text-start">
+                        <p class="card-text">Session Date: <%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
+                      </div>
+                    </div>
+                    <p class="card-text pt-3">Total number of climbs in this session: <%= sessions[i].climbs.length %></p>
+                    <!-- Declares variable that holds hardest climb, iterates through each climbs to check if it was topped out-->
+                    <!-- Then checks what discipline of climbing and if it's harder than the currest hardest climb-->
+                    <% let hardestBoulder, hardestRoute %>
+                    <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
+                      <% const climb = sessions[i].climbs[j] %>
+                      <% if (climb.top === 'Yes') { %>
+                        <% if (climb.typeOfClimb === 'Bouldering' && (!hardestBoulder || climb.difficulty > hardestBoulder.difficulty)) { %>
+                          <% hardestBoulder = climb %>
+                        <% } else if (climb.typeOfClimb === 'Routes' && (!hardestRoute || climb.difficulty > hardestRoute.difficulty)) { %>
+                          <% hardestRoute = climb %>
+                        <% } %>
+                      <% } %>
+                    <% } %>
+                    <!-- Checking to see if either variable is truthy, will display difficulty of hardest climb in that category-->
+                    <% if (hardestBoulder) { %>
+                      <p class="card-text">Hardest Boulder: <%= hardestBoulder.difficulty %></p>
+                    <% } %>
+                    <% if (hardestRoute) { %>
+                      <p class="card-text">Hardest Route: <%= hardestRoute.difficulty %></p>
+                    <% } %>
+                    <p class="card-text">Likes: <%= sessions[i].likes %></p>
+                    Session Descriptors:
+                    <br>
+                    <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
+                      <% const climb = sessions[i].climbs[j] %>
+                      <% for (var k = 0; k < climb.tags.length; k++) { %>
+                        <% const tag = climb.tags[k] %>
                         <% if (!tagSet.has(tag)) { %>
-                        <% tagSet.add(tag) %>
-                        <span class="badge bg-primary"><%= tag %></span>
+                          <% tagSet.add(tag) %>
+                          <span class="badge bg-primary"><%= tag %></span>
                         <% } %>
-                        <% } %>
-                    <% if (climb.image) { %>
-                    <span>Boulder Problems and Routes Pics</span>
-                    <img class="img-fluid" src="<%= climb.image %>">
-                    <% } %>
-                  <% } %>
-
-                <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
-                  <button class="btn btn-primary fa fa-trash" type="submit"></button>
-                </form>
-              </li>
-            <% } %>
+                      <% } %>
+                    <% } %>                    
+                    <div class="d-flex justify-content-start pt-4">
+                      <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-primary fa fa-trash me-2" type="submit"></button>
+                      </form>
+                      <form action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
+                        <button class="btn btn-primary fa fa-heart" type="submit"></button>
+                      </form>
+                      <a class="btn btn-outline-primary btn-sm ms-2" href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           <% } %>
-        </ul>
-      </div>  
-    </div>  
-  </div>
-</div>
+        <% } %>                 
+      </div>
+    </div>
 <%- include('partials/footer') -%>
