@@ -12,6 +12,9 @@
   max-width: 1200px;
   padding: 20px;
 }
-.h2-profile{
-  padding-left: 70px;
+.h2-profile, .h2-sessionOne{
+  padding-left: 60px;
+}
+.accordion-item:not(.collapsed) {
+  border: none;
 }

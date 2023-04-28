@@ -1,8 +1,34 @@
-<a class="btn btn-primary" href="/feed">Return to Feed</a>
-<a class="btn btn-primary" href="/profile">My Profile</a></h1>
-<a class="btn btn-primary" href="/logout">Logout</a>
 <%- include('partials/header') -%>
-<h2 class="text-center"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> <br>Climbing Session</h2>
+<nav class="navbar navbar-expand-md navbar-light">
+  <div class="container-xxl">
+    <a class="navbar-brand p-2">  
+      <span class="text-secondary">
+          Climb On - Session Tracker App
+      </span>
+          <!--toggle button for nav-->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> 
+    </a>
+
+    <!--navbar links--> 
+    <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/session">New Session</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/feed">Feed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h2 class="text-start text-secondary fw-normal text-capitalize h2-sessionOne"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> 
+<br>Climbing Session</h2>
 <section class="container-lg">
     <input type="hidden" id="sessionsData" value='<%- JSON.stringify(session) %>'> <%/*Hidden input field that contains the stringified JSON data of all sessions*/%>
     <div class="row">
