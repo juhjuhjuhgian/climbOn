@@ -30,20 +30,53 @@
 <h2 class="text-start text-secondary fw-normal text-capitalize h2-sessionOne"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> 
 <br>Climbing Session</h2>
 <section class="container-lg">
-    <input type="hidden" id="sessionsData" value='<%- JSON.stringify(session) %>'> <%/*Hidden input field that contains the stringified JSON data of all sessions*/%>
-    <div class="row">
-        <div class="col-md-4">
-            <canvas id="boulderingChart"></canvas>
+  <input type="hidden" id="sessionsData" value='<%- JSON.stringify(session) %>'>
+  <div class="row">
+    <% if (session.climbs.some(climb => climb.typeOfClimb === 'Routes') && session.climbs.some(climb => climb.typeOfClimb === 'Bouldering')) { %>
+      <div class="col-md-6">
+        <div class="d-flex flex-column align-items-center">
+          <canvas id="attemptsChart"></canvas>
         </div>
-        <div class="col-md-4">
-            <canvas id="routesChart"></canvas>
+      </div>
+      <div class="col-md-3">
+        <canvas id="boulderingChart"></canvas>
+      </div>
+      <div class="col-md-3">
+        <canvas id="routesChart"></canvas>
+      </div>
+    <% } else if (session.climbs.some(climb => climb.typeOfClimb === 'Routes')) { %>
+      <div class="col-md-4">
+        <div class="d-flex justify-content-center">
+          <canvas id="routesChart"></canvas>
         </div>
-        <div class="col-md-4">
-            <canvas id="attemptsChart"></canvas>
+      </div>
+      <div class="col-md-8">
+        <div class="d-flex flex-column align-items-center">
+          <canvas id="attemptsChart"></canvas>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+      </div>
+    <% } else if (session.climbs.some(climb => climb.typeOfClimb === 'Bouldering')) { %>
+      <div class="col-md-4">
+        <div class="d-flex justify-content-center">
+          <canvas id="boulderingChart"></canvas>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="d-flex flex-column align-items-center">
+          <canvas id="attemptsChart"></canvas>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="col-md-12">
+        <div class="d-flex justify-content-center">
+          <p>No data available</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
         const climbs = JSON.parse('<%- JSON.stringify(session.climbs) %>'); //converts JSON string representation of session.climbs into a object climbs
         const boulderingData = {
         labels: ["VB", "V0", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10"],
@@ -66,7 +99,7 @@
         });
 
       //bouldering pie chart
-      const boulderingChart = new Chart(document.getElementById('boulderingChart').getContext('2d'), { //creates a new instance of a Chart object using the canvas element with ID 'boulderingChart' as its target.
+      const boulderingChart = new Chart(document.getElementById('boulderingChart'), { //creates a new instance of a Chart object using the canvas element with ID 'boulderingChart' as its target.
         type: 'pie',
         data: {
           labels: boulderingData.labels.filter((_, i) => boulderingData.data[i] > 0), 
@@ -99,7 +132,7 @@
   });
 
   //routes pie chart
-  const routesChart = new Chart(document.getElementById('routesChart').getContext('2d'), {
+  const routesChart = new Chart(document.getElementById('routesChart'), {
     type: 'pie',
     data: {
       labels: routesData.labels.filter((_, i) => routesData.data[i] > 0),
@@ -143,7 +176,7 @@
     totalTops += climb.top ? 1 : 0;
   });
 
-  const attemptsChart = new Chart(document.getElementById('attemptsChart').getContext('2d'), {
+  const attemptsChart = new Chart(document.getElementById('attemptsChart'), {
     type: 'bar',
     data: {
       labels: ['Total Attempts', 'Total Tops'],
@@ -174,18 +207,18 @@
 </script>
 
 <ul class="row list-unstyled">
-    <% for (let i = 0; i < session.climbs.length; i++) { %>
-        <li>Type of Climb: <%= session.climbs[i].typeOfClimb %></li>
-        <li>Difficulty: <%= session.climbs[i].difficulty %></li>
-        <li>Attempts: <%= session.climbs[i].attempts %></li>
-        <li>Top: <%= session.climbs[i].top %></li>
-        <li>Tags: <%= session.climbs[i].tags.join(', ') %></li>
-        <li><% if (session.climbs.image) { %>
-            <img class="img-fluid" src="<%= climb.image %>">
-        <% } %></li>
-        <li><% if (session.climbs.notes) { %>
-            <li>Notes: <%= session.climbs[i].notes %></li>
-        <% } %></li>
-    <% } %>
+  <% for (let i = 0; i < session.climbs.length; i++) { %>
+    <li>Type of Climb: <%= session.climbs[i].typeOfClimb %></li>
+    <li>Difficulty: <%= session.climbs[i].difficulty %></li>
+    <li>Attempts: <%= session.climbs[i].attempts %></li>
+    <li>Top: <%= session.climbs[i].top %></li>
+    <li>Tags: <%= session.climbs[i].tags.join(', ') %></li>
+    <li><% if (session.climbs.image) { %>
+      <img class="img-fluid" src="<%= climb.image %>">
+    <% } %></li>
+    <li><% if (session.climbs.notes) { %>
+      <li>Notes: <%= session.climbs[i].notes %></li>
+    <% } %></li>
+  <% } %>
 </ul>
 <%- include('partials/footer') -%>

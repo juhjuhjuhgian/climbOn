@@ -294,7 +294,7 @@ module.exports = {
       // Remove the session
       await ClimbingSession.deleteOne({ _id: session._id });
       console.log("Session has been deleted.");
-      res.redirect("/feed");
+      res.redirect("/profile");
     } catch (err) {
       console.log(err);
       res.redirect("/");
