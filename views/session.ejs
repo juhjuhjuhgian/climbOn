@@ -1,83 +1,115 @@
-<a class="btn btn-primary" href="/feed">Return to Feed</a>
-<a class="btn btn-primary" href="/profile">My Profile</a></h1>
-<a class="btn btn-primary" href="/logout">Logout</a>
 <%- include('partials/header') -%>
-<h1 class="text-center">Session Logger</h1>
-<h2>Current Session</h2>
-<ul class="row list-unstyled">
-  <% for (let i = 0; i < climbs.length; i++) { %>
-    <li>Type of Climb: <%= climbs[i].typeOfClimb %></li>
-    <li>Difficulty: <%= climbs[i].difficulty %></li>
-    <li>Attempts: <%= climbs[i].attempts %></li>
-    <li>Top: <%= climbs[i].top %></li>
-    <li>Image: <img src="<%= climbs[i].image %>"></li>
-    <li>Tags: <%= climbs[i].tags.join(', ') %></li>
-    <li>Notes: <%= climbs[i].notes %></li>
-    <li>
-      <form action="/post/editIndividualClimb/<%= climbs[i]._id %>" method="GET">
-      <button class="btn btn-primary fa fa-pencil" type="submit"></button>
-      </form>
-    </li>
-    <li>
-    <form action="/post/deleteIndividualClimb/<%= climbs[i]._id %>?_method=DELETE" method="POST">
-    <button class="btn btn-primary fa fa-trash" type="submit"></button>
-    </form>
-  </li>
-  <% } %>
-</ul>
-<form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
-  <input class="btn btn-primary" type="submit" value="Finalize Session">
-</form>
-<div class="mt-5">
-  <h2>Add A New Climb To Start A Session</h2>
-  <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
-    <div class="mb-3">
+<nav class="navbar navbar-expand-md navbar-light">
+  <div class="container-xxl">
+    <a class="navbar-brand p-2">  
+      <span class="text-secondary">
+          Climb On - Session Tracker App
+      </span>
+          <!--toggle button for nav-->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> 
+    </a>
+
+    <!--navbar links--> 
+    <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/session">New Session</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/feed">Feed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h2 class="text-center text-secondary fw-normal text-capitalize">Log A Session</h2>
+
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-1">
+    <h2 class="text-secondary">Add A New Climb To Start A Session</h2>
+    <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
+      <div class="mb-3">
         <label for="typeOfClimb" class="form-label">Type Of Climb</label>
         <select id="typeOfClimb" name="typeOfClimb">
           <option value="Bouldering">Bouldering</option>
           <option value="Routes">Routes</option>
         </select>
-    </div>
-    <div class="mb-3">
-      <label for="Difficulty" class="form-label">Difficulty</label>
-      <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty" oninput="updateDifficultyValue()">
-      <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
-      <input type="hidden" id="DifficultyInput" name="Difficulty">
-    </div>    
-    <div class="mb-3">
-      <label for="Attempts" class="form-label">Attempts?</label>
-      <input type="range" class="form-control" id="Attempts" min="1" max="15"  name="Attempts" oninput="updateAttemptsValue()">
-      <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
-    </div>
-    <div class="mb-3">
-        <legend>Top?</legend>
+      </div>
+      <div class="mb-3">
+        <label for="Difficulty" class="form-label">Difficulty</label>
+        <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty" oninput="updateDifficultyValue()">
+        <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
+        <input type="hidden" id="DifficultyInput" name="Difficulty">
+      </div>
+      <div class="mb-3">
+        <label for="Attempts" class="form-label">Attempts?</label>
+        <input type="range" class="form-control" id="Attempts" min="1" max="15" name="Attempts" oninput="updateAttemptsValue()">
+        <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
+      </div>
+      <div class="mb-3">
+        <label>Top?</label>
         <input type="checkbox" id="Yes" name="TopYes">
         <label for="Yes">Yes</label>
         <input type="checkbox" id="No" name="TopNo">
         <label for="No">No</label>
-    </div>
-    <div class="mb-3">
-      <label for="imgUpload" class="form-label">Image/Video</label>
-      <input type="file" class="form-control" id="imageUpload" name="file">
-    </div>
-    <div class="mb-3" id="keywords">
-      <label><input type="checkbox" name="Keywords" value="OnSight">On Sight</label>
-      <label><input type="checkbox" name="Keywords" value="Flash">Flash</label>
-      <label><input type="checkbox" name="Keywords" value="Slopers">Slopers</label>
-      <label><input type="checkbox" name="Keywords" value="Crimpy">Crimpy</label>
-      <label><input type="checkbox" name="Keywords" value="Juggy">Juggy</label>
-      <label><input type="checkbox" name="Keywords" value="Overhanging">Overhanging</label>
-      <label><input type="checkbox" name="Keywords" value="Static">Static</label>
-      <label><input type="checkbox" name="Keywords" value="Dynamic">Dynamic</label>
-      <label><input type="checkbox" name="Keywords" value="Dyno">Dyno</label>
-      <label><input type="checkbox" name="Keywords" value="Pockets">Pockets</label>
-      <label><input type="checkbox" name="Keywords" value="Gaston">Gaston</label>
-    </div>
-    <div class="mb-3">
-      <label for="Notes" class="form-label">Notes</label>
-      <textarea class="form-control" id="Notes" name="Notes"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary" value="Submit">Submit Climb</button>
-  </form>
+      </div>
+      <div class="mb-3">
+        <label for="imgUpload" class="form-label">Image/Video</label>
+        <input type="file" class="form-control" id="imageUpload" name="file">
+      </div>
+      <div class="mb-3" id="keywords">
+        <label><input type="checkbox" name="Keywords" value="OnSight">On Sight</label>
+        <label><input type="checkbox" name="Keywords" value="Flash">Flash</label>
+        <label><input type="checkbox" name="Keywords" value="Slopers">Slopers</label>
+        <label><input type="checkbox" name="Keywords" value="Crimpy">Crimpy</label>
+        <label><input type="checkbox" name="Keywords" value="Juggy">Juggy</label>
+        <label><input type="checkbox" name="Keywords" value="Overhanging">Overhanging</label>
+        <label><input type="checkbox" name="Keywords" value="Static">Static</label>
+        <label><input type="checkbox" name="Keywords" value="Dynamic">Dynamic</label>
+        <label><input type="checkbox" name="Keywords" value="Dyno">Dyno</label>
+        <label><input type="checkbox" name="Keywords" value="Pockets">Pockets</label>
+        <label><input type="checkbox" name="Keywords" value="Gaston">Gaston</label>
+      </div>
+      <div class="mb-3">
+        <label for="Notes" class="form-label">Notes</label>
+        <textarea class="form-control" id="Notes" name="Notes"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" value="Submit">Submit Climb</button>
+    </form>
+  </div>
+  <div class="col-md-4">
+    <h2 class="text-secondary">Current Session</h2>
+    <ul class="list-unstyled">
+      <% for (let i = 0; i < climbs.length; i++) { %>
+        <li>Type of Climb: <%= climbs[i].typeOfClimb %></li>
+        <li>Difficulty: <%= climbs[i].difficulty %></li>
+        <li>Attempts: <%= climbs[i].attempts %></li>
+        <li>Top: <%= climbs[i].top %></li>
+        <li>Image: <img src="<%= climbs[i].image %>"></li>
+        <li>Tags: <%= climbs[i].tags.join(', ') %></li>
+        <% if (climbs[i].notes) { %>
+          <li>Notes: <%= climbs[i].notes %></li>
+        <% } %>
+        <li>
+          <form action="/post/editIndividualClimb/<%= climbs[i]._id %>" method="GET">
+            <button class="btn btn-primary fa fa-pencil" type="submit"></button>
+          </form>
+        </li>
+        <li>
+          <form action="/post/deleteIndividualClimb/<%= climbs[i]._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-primary fa fa-trash" type="submit"></button>
+          </form>
+        </li>
+      <% } %>
+    </ul>
+    <form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
+      <input class="btn btn-primary" type="submit" value="Finalize Session">
+    </form>
+  </div>
 </div>
-  <%- include('partials/footer') -%>
+<%- include('partials/footer') -%>
