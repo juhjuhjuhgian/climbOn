@@ -28,7 +28,7 @@
   </div>
 </nav>
 <h2 class="text-start text-secondary fw-normal text-capitalize h2-sessionOne"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> 
-<br>Climbing Session</h2>
+Climbing Session</h2>
 <section class="container-lg">
   <input type="hidden" id="sessionsData" value='<%- JSON.stringify(session) %>'>
   <div class="row">
@@ -206,19 +206,46 @@
   });
 </script>
 
-<ul class="row list-unstyled">
+<div class="row justify-content-center mt-3">
   <% for (let i = 0; i < session.climbs.length; i++) { %>
-    <li>Type of Climb: <%= session.climbs[i].typeOfClimb %></li>
-    <li>Difficulty: <%= session.climbs[i].difficulty %></li>
-    <li>Attempts: <%= session.climbs[i].attempts %></li>
-    <li>Top: <%= session.climbs[i].top %></li>
-    <li>Tags: <%= session.climbs[i].tags.join(', ') %></li>
-    <li><% if (session.climbs.image) { %>
-      <img class="img-fluid" src="<%= climb.image %>">
-    <% } %></li>
-    <li><% if (session.climbs.notes) { %>
-      <li>Notes: <%= session.climbs[i].notes %></li>
-    <% } %></li>
+    <div class="col-md-10 mt-4">
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex align-items-center">
+            <% if (session.climbs[i].image) { %>
+              <img src="<%= session.climbs[i].image %>" class="img-fluid rounded-start" alt="<%= session.climbs[i].typeOfClimb %>">
+            <% } else { %>
+              <img src="/imgs/Event_StillClosed.jpeg" class="img-fluid rounded-start" alt="default climb image">
+            <% } %>
+          </div>
+          <div class="col-md-8">
+            <ul class="card-body">
+              <h4 class="card-title text-secondary">Type of Climb - <%= session.climbs[i].typeOfClimb %></h4>
+              <h6 class="text-secondary" >Difficulty: <%= session.climbs[i].difficulty %></h6>
+              <h6 class="text-secondary">Attempts: <%= session.climbs[i].attempts %></h6>
+              <h6 class="text-secondary">Top: <%= session.climbs[i].top %></h6>
+              <% if (session.climbs[i].notes) { %>
+                <h6 class="text-secondary">Notes: <%= session.climbs[i].notes %></h6>
+              <% } %>
+              <ul class="list-unstyled mb-0">
+                <% const tagSet = new Set() %>
+                <% for (var j = 0; j < session.climbs.length; j++) { %>
+                  <% const climb = session.climbs[j] %>
+                  <% for (var k = 0; k < climb.tags.length; k++) { %>
+                    <% const tag = climb.tags[k] %>
+                    <% if (!tagSet.has(tag)) { %>
+                      <% tagSet.add(tag) %>
+                      <span class="badge bg-primary me-1"><%= tag %></span>
+                    <% } %>
+                  <% } %>
+                <% } %>
+              </ul>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   <% } %>
-</ul>
+</div>
+
 <%- include('partials/footer') -%>
