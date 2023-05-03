@@ -27,89 +27,174 @@
     </div>
   </div>
 </nav>
-<h2 class="text-center text-secondary fw-normal text-capitalize">Log A Session</h2>
+<h2 class="text-center text-secondary">Log A Session</h2>
 
-<div class="row mt-5">
+<div class="row mt-4 ms-1">
   <div class="col-md-6 offset-md-1">
-    <h2 class="text-secondary">Add A New Climb To Start A Session</h2>
-    <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
-      <div class="mb-3">
-        <label for="typeOfClimb" class="form-label">Type Of Climb</label>
-        <select id="typeOfClimb" name="typeOfClimb">
-          <option value="Bouldering">Bouldering</option>
-          <option value="Routes">Routes</option>
-        </select>
+    <div class="card border-primary shadow">
+      <div class="card-header bg-secondary text-white">
+        <h2 class="text-center m-0">Add A New Climb To Start A Session</h2>
       </div>
-      <div class="mb-3">
-        <label for="Difficulty" class="form-label">Difficulty</label>
-        <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty" oninput="updateDifficultyValue()">
-        <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
-        <input type="hidden" id="DifficultyInput" name="Difficulty">
+      <div class="card-body">
+        <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="typeOfClimb" class="form-label">Type Of Climb</label>
+            <select id="typeOfClimb" name="typeOfClimb">
+              <option value="Bouldering">Bouldering</option>
+              <option value="Routes">Routes</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="Difficulty" class="form-label">Difficulty</label>
+            <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty" oninput="updateDifficultyValue()">
+            <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
+            <input type="hidden" id="DifficultyInput" name="Difficulty">
+          </div>
+          <div class="mb-3">
+            <label for="Attempts" class="form-label">Attempts</label>
+            <input type="range" class="form-control" id="Attempts" min="1" max="15" name="Attempts" oninput="updateAttemptsValue()">
+            <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
+          </div>
+          <label>Top Out?</label>
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="Top" id="Yes" value="Yes" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Yes">Yes</label>
+          
+            <input type="radio" class="btn-check" name="Top" id="No" value="No" autocomplete="off">
+            <label class="btn btn-outline-primary" for="No">No</label>
+          </div>
+          <div class="mb-3">
+            <label for="imgUpload" class="form-label">Image/Video</label>
+            <input type="file" class="form-control" id="imageUpload" name="file">
+          </div>
+          <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" id="btncheck1" name="Keywords" value="Arete" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck1">Arete</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck2" name="Keywords" value="Barn Door" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck2">Barn Door</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck3" name="Keywords" value="Crimpy" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck3">Crimpy</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck4" name="Keywords" value="Dynamic" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck4">Dynamic</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck5" name="Keywords" value="Dyno" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck5">Dyno</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck6" name="Keywords" value="Feet Matching" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck6">Feet Matching</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck7" name="Keywords" value="Flash" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck7">Flash</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck8" name="Keywords" value="Gaston" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck8">Gaston</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck9" name="Keywords" value="Hand Match" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck9">Hand Matching</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck10" name="Keywords" value="Heel Hook" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck10">Heel Hook</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck11" name="Keywords" value="Juggy" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck11">Juggy</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck12" name="Keywords" value="Mantel" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck12">Mantel</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck13" name="Keywords" value="OnSight" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck13">On Sight</label>
+          
+            <input type="checkbox" class="btn-check" id="btncheck14" name="Keywords" value="Over-hanging" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck14">Overhanging</label>
+            
+            <input type="checkbox" class="btn-check" id="btncheck15" name="Keywords" value="Pockets" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck15">Pockets</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck16" name="Keywords" value="Pumped" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck16">Pumped</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck17" name="Keywords" value="Red Point" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck17">Red Point</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck18" name="Keywords" value="Slopers" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck18">Slopers</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck19" name="Keywords" value="Side Pull" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck19">Side Pull</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck20" name="Keywords" value="Static" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck20">Static</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck21" name="Keywords" value="Undercling" autocomplete="off">
+            <label class="btn btn-outline-primary m-1" for="btncheck21">Undercling</label>
+          </div>    
+          <div class="mb-3">
+            <label for="Notes" class="form-label"></label>
+            <div class="form-floating">
+              <textarea class="form-control" id="Notes" name="Notes"></textarea>
+              <label for="Notes">Notes</label>
+            </div>
+          </div>          
+          <button type="submit" class="btn btn-primary mb-4" value="Submit">Submit Climb</button>
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="Attempts" class="form-label">Attempts?</label>
-        <input type="range" class="form-control" id="Attempts" min="1" max="15" name="Attempts" oninput="updateAttemptsValue()">
-        <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
-      </div>
-      <div class="mb-3">
-        <label>Top?</label>
-        <input type="checkbox" id="Yes" name="TopYes">
-        <label for="Yes">Yes</label>
-        <input type="checkbox" id="No" name="TopNo">
-        <label for="No">No</label>
-      </div>
-      <div class="mb-3">
-        <label for="imgUpload" class="form-label">Image/Video</label>
-        <input type="file" class="form-control" id="imageUpload" name="file">
-      </div>
-      <div class="mb-3" id="keywords">
-        <label><input type="checkbox" name="Keywords" value="OnSight">On Sight</label>
-        <label><input type="checkbox" name="Keywords" value="Flash">Flash</label>
-        <label><input type="checkbox" name="Keywords" value="Slopers">Slopers</label>
-        <label><input type="checkbox" name="Keywords" value="Crimpy">Crimpy</label>
-        <label><input type="checkbox" name="Keywords" value="Juggy">Juggy</label>
-        <label><input type="checkbox" name="Keywords" value="Overhanging">Overhanging</label>
-        <label><input type="checkbox" name="Keywords" value="Static">Static</label>
-        <label><input type="checkbox" name="Keywords" value="Dynamic">Dynamic</label>
-        <label><input type="checkbox" name="Keywords" value="Dyno">Dyno</label>
-        <label><input type="checkbox" name="Keywords" value="Pockets">Pockets</label>
-        <label><input type="checkbox" name="Keywords" value="Gaston">Gaston</label>
-      </div>
-      <div class="mb-3">
-        <label for="Notes" class="form-label">Notes</label>
-        <textarea class="form-control" id="Notes" name="Notes"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary" value="Submit">Submit Climb</button>
-    </form>
+    </div>
   </div>
-  <div class="col-md-4">
-    <h2 class="text-secondary">Current Session</h2>
-    <ul class="list-unstyled">
+
+  <div class="col-md-4 col-11 card border-primary shadow ms-3">
+    <div class="card-header bg-secondary text-white">
+      <h2 class="text-white text-center">Current Session</h2>
+    </div>
+    <br>
       <% for (let i = 0; i < climbs.length; i++) { %>
-        <li>Type of Climb: <%= climbs[i].typeOfClimb %></li>
-        <li>Difficulty: <%= climbs[i].difficulty %></li>
-        <li>Attempts: <%= climbs[i].attempts %></li>
-        <li>Top: <%= climbs[i].top %></li>
-        <li>Image: <img src="<%= climbs[i].image %>"></li>
-        <li>Tags: <%= climbs[i].tags.join(', ') %></li>
-        <% if (climbs[i].notes) { %>
-          <li>Notes: <%= climbs[i].notes %></li>
-        <% } %>
-        <li>
-          <form action="/post/editIndividualClimb/<%= climbs[i]._id %>" method="GET">
-            <button class="btn btn-primary fa fa-pencil" type="submit"></button>
-          </form>
-        </li>
-        <li>
-          <form action="/post/deleteIndividualClimb/<%= climbs[i]._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-primary fa fa-trash" type="submit"></button>
-          </form>
-        </li>
+        <div class="accordion mb-3" id="climbAccordion<%= i %>">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="climbHeader<%= i %>">
+              <button class="accordion-button collapsed btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#climbCollapse<%= i %>" aria-expanded="<%= i === 0 ? 'true' : 'false' %>" aria-controls="climbCollapse<%= i %>">
+                Type of Climb: <%= climbs[i].typeOfClimb %>
+              </button>
+            </h2>
+            <div id="climbCollapse<%= i %>" class="accordion-collapse collapse <%= i === 0 ? 'show' : '' %>" aria-labelledby="climbHeader<%= i %>" data-bs-parent="#climbAccordion<%= i %>">
+              <div class="accordion-body">
+                <ul class="list-group list-group-flush list-unstyled">
+                  <% if (climbs[i].image) { %>
+                    <li><img src="<%= climbs[i].image %>" class="img-thumbnail"></li>
+                  <% } %>
+                  <li class="list-group-item">Difficulty: <%= climbs[i].difficulty %></li>
+                  <li class="list-group-item">Attempts: <%= climbs[i].attempts %></li>
+                  <li class="list-group-item">Top: <%= climbs[i].top %></li>
+                  <% if (climbs[i].notes) { %>
+                  <li class="list-group-item">Notes: <%= climbs[i].notes %></li>
+                  <% } %>
+                  <l1 class="list-unstyled mb-0 mt-2">
+                    <% const tagSet = new Set(climbs[i].tags) %>
+                    <% for (let tag of tagSet) { %>
+                      <span class="badge bg-primary me-1"><%= tag %></span>
+                    <% } %>
+                  </l1>
+                  
+                  <li class="d-flex align-items-center mt-2">
+                    <form action="/post/editIndividualClimb/<%= climbs[i]._id %>" method="GET">
+                      <button class="btn btn-primary me-2 fa fa-edit" type="submit"></button>
+                    </form>
+                    <form action="/post/deleteIndividualClimb/<%= climbs[i]._id %>?_method=DELETE" method="POST">
+                      <button class="btn btn-primary fa fa-trash" type="submit"></button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       <% } %>
-    </ul>
-    <form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
-      <input class="btn btn-primary" type="submit" value="Finalize Session">
-    </form>
-  </div>
+      <div class="text-center">
+        <form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
+          <input class="btn btn-primary" type="submit" value="Finalize Session">
+        </form>
+      </div>
+    </div>
 </div>
 <%- include('partials/footer') -%>

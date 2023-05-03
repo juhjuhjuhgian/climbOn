@@ -228,16 +228,9 @@ Climbing Session</h2>
                 <h6 class="text-secondary">Notes: <%= session.climbs[i].notes %></h6>
               <% } %>
               <ul class="list-unstyled mb-0">
-                <% const tagSet = new Set() %>
-                <% for (var j = 0; j < session.climbs.length; j++) { %>
-                  <% const climb = session.climbs[j] %>
-                  <% for (var k = 0; k < climb.tags.length; k++) { %>
-                    <% const tag = climb.tags[k] %>
-                    <% if (!tagSet.has(tag)) { %>
-                      <% tagSet.add(tag) %>
-                      <span class="badge bg-primary me-1"><%= tag %></span>
-                    <% } %>
-                  <% } %>
+                <% const tagSet = new Set(session.climbs[i].tags) %>
+                <% for (let tag of tagSet) { %>
+                  <span class="badge bg-primary me-1"><%= tag %></span>
                 <% } %>
               </ul>
             </ul>
