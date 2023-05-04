@@ -26,29 +26,23 @@
               <input type="range" class="form-control" id="Attempts" min="1" max="15"  name="Attempts" oninput="updateAttemptsValue()" value="<%= climb.attempts %>">
               <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
             </div>
-            <div class="mb-3">
-              <legend>Top?</legend>
-              <input type="checkbox" id="Yes" name="TopYes" <%= climb.top ? 'checked' : '' %>>
-              <label for="Yes">Yes</label>
-              <input type="checkbox" id="No" name="TopNo" <%= !climb.top ? 'checked' : '' %>>
-              <label for="No">No</label>
-            </div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="Top" id="Yes" value="Yes" <%= climb.top === 'Yes' ? 'checked' : '' %> autocomplete="off">
+              <label class="btn btn-outline-primary" for="Yes">Yes</label>
+            
+              <input type="radio" class="btn-check" name="Top" id="No" value="No" <%= climb.top === 'No' ? 'checked' : '' %> autocomplete="off">
+              <label class="btn btn-outline-primary" for="No">No</label>
+            </div>            
             <div class="mb-3">
               <label for="imgUpload" class="form-label">Image/Video</label>
               <input type="file" class="form-control" id="imageUpload" name="file">
             </div>
-            <div class="mb-3" id="keywords">
-              <label><input type="checkbox" name="Keywords" value="OnSight" <%= climb.tags.includes('OnSight') ? 'checked' : '' %>>On Sight</label>
-              <label><input type="checkbox" name="Keywords" value="Flash" <%= climb.tags.includes('Flash') ? 'checked' : '' %>>Flash</label>
-              <label><input type="checkbox" name="Keywords" value="Slopers" <%= climb.tags.includes('Slopers') ? 'checked' : '' %>>Slopers</label>
-              <label><input type="checkbox" name="Keywords" value="Crimpy" <%= climb.tags.includes('Crimpy') ? 'checked' : '' %>>Crimpy</label>
-              <label><input type="checkbox" name="Keywords" value="Juggy" <%= climb.tags.includes('Juggy') ? 'checked' : '' %>>Juggy</label>
-              <label><input type="checkbox" name="Keywords" value="Overhanging" <%= climb.tags.includes('Overhanging') ? 'checked' : '' %>>Overhanging</label>
-              <label><input type="checkbox" name="Keywords" value="Static" <%= climb.tags.includes('Static') ? 'checked' : '' %>>Static</label>
-              <label><input type="checkbox" name="Keywords" value="Dynamic" <%= climb.tags.includes('Dynamic') ? 'checked' : '' %>>Dynamic</label>
-              <label><input type="checkbox" name="Keywords" value="Dyno" <%= climb.tags.includes('Dyno') ? 'checked' : '' %>>Dyno</label>
-              <label><input type="checkbox" name="Keywords" value="Pockets" <%= climb.tags.includes('Pockets') ? 'checked' : '' %>>Pockets</label>
-              <label><input type="checkbox" name="Keywords" value="Gaston" <%= climb.tags.includes('Gaston') ? 'checked' : '' %>>Gaston</label>
+            <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic checkbox toggle button group">
+              <% const keywords = ['Arete', 'Barn Door', 'Crimpy', 'Dynamic', 'Dyno', 'Feet Matching', 'Flash', 'Gaston', 'Hand Matching', 'Heel Hook', 'Juggy', 'Mantel', 'On Sight', 'Overhanging', 'Pockets', 'Pumped', 'Red Point', 'Slopers', 'Side Pull', 'Static', 'Undercling'] %>
+              <% for (let i = 0; i < keywords.length; i++) { %>
+                <input type="checkbox" class="btn-check" id="btncheck<%= i+1 %>" name="Keywords" value="<%= keywords[i] %>" autocomplete="off" <%= climb.tags.includes(keywords[i]) ? 'checked' : '' %>>
+                <label class="btn btn-outline-primary m-1" for="btncheck<%= i+1 %>"><%= keywords[i] %></label>
+              <% } %>
             </div>
             <div class="mb-3">
               <label for="Notes" class="form-label">Notes</label>

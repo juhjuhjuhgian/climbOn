@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
   <div class="container-xxl">
     <a class="navbar-brand p-2">  
-      <span class="text-secondary">
+      <span class="fw-bold text-secondary">
           Climb On - Session Tracker App
       </span>
           <!--toggle button for nav-->
@@ -68,69 +68,12 @@
             <input type="file" class="form-control" id="imageUpload" name="file">
           </div>
           <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic checkbox toggle button group">
-            <input type="checkbox" class="btn-check" id="btncheck1" name="Keywords" value="Arete" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck1">Arete</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck2" name="Keywords" value="Barn Door" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck2">Barn Door</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck3" name="Keywords" value="Crimpy" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck3">Crimpy</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck4" name="Keywords" value="Dynamic" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck4">Dynamic</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck5" name="Keywords" value="Dyno" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck5">Dyno</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck6" name="Keywords" value="Feet Matching" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck6">Feet Matching</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck7" name="Keywords" value="Flash" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck7">Flash</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck8" name="Keywords" value="Gaston" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck8">Gaston</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck9" name="Keywords" value="Hand Match" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck9">Hand Matching</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck10" name="Keywords" value="Heel Hook" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck10">Heel Hook</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck11" name="Keywords" value="Juggy" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck11">Juggy</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck12" name="Keywords" value="Mantel" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck12">Mantel</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck13" name="Keywords" value="OnSight" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck13">On Sight</label>
-          
-            <input type="checkbox" class="btn-check" id="btncheck14" name="Keywords" value="Over-hanging" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck14">Overhanging</label>
-            
-            <input type="checkbox" class="btn-check" id="btncheck15" name="Keywords" value="Pockets" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck15">Pockets</label>
-
-            <input type="checkbox" class="btn-check" id="btncheck16" name="Keywords" value="Pumped" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck16">Pumped</label>
-
-            <input type="checkbox" class="btn-check" id="btncheck17" name="Keywords" value="Red Point" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck17">Red Point</label>
-
-            <input type="checkbox" class="btn-check" id="btncheck18" name="Keywords" value="Slopers" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck18">Slopers</label>
-
-            <input type="checkbox" class="btn-check" id="btncheck19" name="Keywords" value="Side Pull" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck19">Side Pull</label>
-
-            <input type="checkbox" class="btn-check" id="btncheck20" name="Keywords" value="Static" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck20">Static</label>
-
-            <input type="checkbox" class="btn-check" id="btncheck21" name="Keywords" value="Undercling" autocomplete="off">
-            <label class="btn btn-outline-primary m-1" for="btncheck21">Undercling</label>
-          </div>    
+            <% const keywords = ['Arete', 'Barn Door', 'Crimpy', 'Dynamic', 'Dyno', 'Feet Matching', 'Flash', 'Gaston', 'Hand Matching', 'Heel Hook', 'Juggy', 'Mantel', 'On Sight', 'Overhanging', 'Pockets', 'Pumped', 'Red Point', 'Slopers', 'Side Pull', 'Static', 'Undercling'] %>
+            <% for (let i = 0; i < keywords.length; i++) { %>
+              <input type="checkbox" class="btn-check" id="btncheck<%= i+1 %>" name="Keywords" value="<%= keywords[i] %>" autocomplete="off">
+              <label class="btn btn-outline-primary m-1" for="btncheck<%= i+1 %>"><%= keywords[i] %></label>
+            <% } %>
+          </div>          
           <div class="mb-3">
             <label for="Notes" class="form-label"></label>
             <div class="form-floating">
