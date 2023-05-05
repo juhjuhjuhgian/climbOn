@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
   <div class="container-xxl">
     <a class="navbar-brand p-2">  
-      <span class="fw-bold text-secondary">
+      <span class="fw-bold text-info text-light">
           Climb On - Session Tracker App
       </span>
           <!--toggle button for nav-->
@@ -29,7 +29,15 @@
 </nav>
 
 <!--card header-->
-<h2 class="text-center text-secondary">Feed</h2>
+
+<div class="container container-smaller text-center my-4">
+  <div class="p-4 mt-4 mb-4 bg-light" style="border-radius: 10px">
+    <p class="fs-3 text-center">The Feed</p>
+    <p>Check out how everyone has been climbing by clicking on the pictures dropdown and seeing who's commented on the page. Dive into each session by clicking on Session Info, where you'll see more information on the climbs from each session. Don't forget to like and leave a comment!</p>
+  </div>
+</div>
+
+
 <section class="container-md">
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <% for(var i=0; i<sessions.length; i++) {%>
@@ -58,7 +66,7 @@
                     <div class="accordion-body">
                       <div class="row">
                         <% images.forEach((climb, index) => { %>
-                          <div class="col-md-6 mb-3">  <!--width of 6 columns on medium-sized screens or larger-->
+                          <div class="col-md-12 mb-3">  <!--width of 6 columns on medium-sized screens or larger-->
                             <img class="card-img-top p-2" src="<%= climb.image %>" alt="Climbing Image <%= index %>">
                           </div>
                         <% }) %>
@@ -70,7 +78,7 @@
             <% } %>
 
             <ul class="list-group list-group-flush list-unstyled">
-              <li class="list-group-item">Total Climbs This Session: <%= sessions[i].climbs.length %></li>
+              <li class="list-group-item mt-4">Total Climbs This Session: <%= sessions[i].climbs.length %></li>
               <% let hardestBoulder, hardestRoute %>
               <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
               <% const climb = sessions[i].climbs[j] %>
@@ -91,7 +99,7 @@
               <li class="list-group-item">Likes: <%= sessions[i].likes %></li>
           </ul>
             <!--delete and like buttons-->
-            <div class="d-flex justify-content-start">
+            <div class="d-flex justify-content-start mt-4">
               <% if (sessions[i].user == user.id) { %>
                 <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
                   <button class="btn btn-primary fa fa-trash me-2" type="submit"></button>

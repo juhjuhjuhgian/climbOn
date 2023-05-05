@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
   <div class="container-xxl">
     <a class="navbar-brand p-2">  
-      <span class="fw-bold text-secondary">
+      <span class="fw-bold text-info text-light">
           Climb On - Session Tracker App
       </span>
           <!--toggle button for nav-->
@@ -27,44 +27,44 @@
     </div>
   </div>
 </nav>
-<h2 class="text-center text-secondary">Log A Session</h2>
+<h2 class="text-center mt-2 text-white">Log A Session</h2>
 
 <div class="row mt-4 ms-1">
   <div class="col-md-6 offset-md-1">
     <div class="card border-primary shadow">
-      <div class="card-header bg-secondary text-white">
-        <h2 class="text-center m-0">Add A New Climb To Start A Session</h2>
+      <div class="card-header bg-secondary">
+        <h2 class="text-center text-white m-0">Add A New Climb To Start A Session</h2>
       </div>
       <div class="card-body">
         <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
-            <label for="typeOfClimb" class="form-label">Type Of Climb</label>
+            <label for="typeOfClimb" class="form-label text-primary">Type Of Climb</label>
             <select id="typeOfClimb" name="typeOfClimb">
               <option value="Bouldering">Bouldering</option>
               <option value="Routes">Routes</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="Difficulty" class="form-label">Difficulty</label>
+            <label for="Difficulty" class="form-label text-primary">Difficulty</label>
             <input type="range" class="form-control" id="Difficulty" min="0" max="11" name="Difficulty" oninput="updateDifficultyValue()">
-            <span id="DifficultyValue">Drag The Slider To Choose Climbing Difficulty</span>
+            <span id="DifficultyValue" class="text-primary">Drag The Slider To Choose Climbing Difficulty</span>
             <input type="hidden" id="DifficultyInput" name="Difficulty">
           </div>
           <div class="mb-3">
-            <label for="Attempts" class="form-label">Attempts</label>
+            <label for="Attempts" class="form-label class="text-primary"">Attempts</label>
             <input type="range" class="form-control" id="Attempts" min="1" max="15" name="Attempts" oninput="updateAttemptsValue()">
-            <span id="AttemptsValue">Drag The Slider To Choose Your Attempts</span>
+            <span id="AttemptsValue" class="text-primary">Drag The Slider To Choose Your Attempts</span>
           </div>
-          <label>Top Out?</label>
+          <label class="text-primary">Top Out?</label>
           <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="Top" id="Yes" value="Yes" autocomplete="off">
+            <input type="radio" class="btn-check" name="TopYes" id="Yes" value="Yes" autocomplete="off">
             <label class="btn btn-outline-primary" for="Yes">Yes</label>
           
-            <input type="radio" class="btn-check" name="Top" id="No" value="No" autocomplete="off">
+            <input type="radio" class="btn-check" name="TopNo" id="No" value="No" autocomplete="off">
             <label class="btn btn-outline-primary" for="No">No</label>
           </div>
-          <div class="mb-3">
-            <label for="imgUpload" class="form-label">Image/Video</label>
+          <div class="mb-3 mt-3">
+            <label for="imgUpload" class="form-label text-primary">Image/Video</label>
             <input type="file" class="form-control" id="imageUpload" name="file">
           </div>
           <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic checkbox toggle button group">
@@ -96,7 +96,7 @@
         <div class="accordion mb-3" id="climbAccordion<%= i %>">
           <div class="accordion-item">
             <h2 class="accordion-header" id="climbHeader<%= i %>">
-              <button class="accordion-button collapsed btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#climbCollapse<%= i %>" aria-expanded="<%= i === 0 ? 'true' : 'false' %>" aria-controls="climbCollapse<%= i %>">
+              <button class="accordion-button collapsed btn-secondary text-primary"" type="button" data-bs-toggle="collapse" data-bs-target="#climbCollapse<%= i %>" aria-expanded="<%= i === 0 ? 'true' : 'false' %>" aria-controls="climbCollapse<%= i %>">
                 Type of Climb: <%= climbs[i].typeOfClimb %>
               </button>
             </h2>
