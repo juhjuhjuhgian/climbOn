@@ -1,11 +1,31 @@
 <%- include('partials/header') -%>
 
-<main class="container">
-    <div class="row justify-content-around mt-5">
-        <a href="/login" class="col-3 btn btn-primary"> Login</a>
-        <a href="/signup" class="col-3 btn btn-primary"> Signup</a>
-    </div>
-</main>
-    
+<%- include('partials/header') -%>
 
+<div class="container text-center">
+  <div class="row" style="height: 80vh;">
+    <div class="col-md-6 col-index-8 bg-secondary bg-opacity-40">
+      <div class="title">
+        <h5 class="text-white d-inline-block m-0 text-lg">"Climbing?"</h5>
+        <h1 class="text-white fw-bold d-inline-block m-0 text-uppercase text-lg">"Climb On!"</h1>
+        <h3 class="text-white mt-4 title-text text-lg">Welcome to the Climb On, Climbing Session Tracker. <br><br>This community is for those who are just getting started climbing, those who have been climbing for years, and everyone in between. <br><br>Come be a part of the climbing community.</h3>
+      </div>          
+    </div>
+    <div class="col-md-4 col-index-4 bg-secondary bg-opacity-40">
+      <h3 class="text-white text-lg">Getting another sesh in? Welcome back. <br>Click below to login.</h3>
+      <a href="/login" class="col-3 btn btn-info text-white mt-2 text-lg">Login</a>
+      <h3 class="signup text-white text-lg">First time? No worries. <br>Sign up below.</h3>
+      <a href="/signup" class="col-3 btn btn-info text-white mt-2 text-lg">Signup</a>
+    </div>
+  </div>
+  <div class="row" style="height: 20vh;">
+    <div class="col col-index-sm bg-info bg-opacity-50">col-sm</div>
+    <div class="col col-index-sm bg-info bg-opacity-50">col-sm</div>
+    <div class="col col-index-sm bg-info bg-opacity-50">col-sm</div>
+  </div>
+</div>
+
+<%- include('partials/footer') -%> 
+
+  
 <%- include('partials/footer') -%>

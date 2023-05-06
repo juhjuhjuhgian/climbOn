@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
   <div class="container-xxl">
     <a class="navbar-brand p-2">  
-      <span class="fw-bold text-info text-light">
+      <span class="fw-bold text-secondary">
           Climb On - Session Tracker App
       </span>
           <!--toggle button for nav-->
@@ -32,8 +32,8 @@
 
 <div class="container container-smaller text-center my-4">
   <div class="p-4 mt-4 mb-4 bg-light" style="border-radius: 10px">
-    <p class="fs-3 text-center">The Feed</p>
-    <p>Check out how everyone has been climbing by clicking on the pictures dropdown and seeing who's commented on the page. Dive into each session by clicking on Session Info, where you'll see more information on the climbs from each session. Don't forget to like and leave a comment!</p>
+    <p class="fs-3 text-center text-white">The Feed</p>
+    <p class="text-white">Check out how everyone has been climbing by clicking on the pictures dropdown and seeing who's commented on the page. Dive into each session by clicking on Session Info, where you'll see more information on the climbs from each session. Don't forget to like and leave a comment!</p>
   </div>
 </div>
 
@@ -43,12 +43,12 @@
     <% for(var i=0; i<sessions.length; i++) {%>
       <div class="col mb-4 mt-4" style="max-width: 500px; width: 100%; margin: 0 auto;">        
         <div class="card card-feed border-primary">
-          <div class="card-header d-flex justify-content-between align-items-center">
+          <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
             <div class="col-6">
               <h5 class="card-title m-0 text-capitalize">Climber: <%= sessions[i].username %></h5>
             </div>
             <div class="col-6 text-end">
-              <p class="card-text">Session Date: <%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
+              <p class="card-text ">Session Date: <%= sessions[i].createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %></p>
             </div>
           </div>
           <section class="card-body">
@@ -78,7 +78,7 @@
             <% } %>
 
             <ul class="list-group list-group-flush list-unstyled">
-              <li class="list-group-item mt-4">Total Climbs This Session: <%= sessions[i].climbs.length %></li>
+              <li class="list-group-item mt-2 rounded">Total Climbs This Session: <%= sessions[i].climbs.length %></li>
               <% let hardestBoulder, hardestRoute %>
               <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
               <% const climb = sessions[i].climbs[j] %>
@@ -91,35 +91,41 @@
                 <% } %>
               <% } %>
               <% if (hardestBoulder) { %>
-              <li class="list-group-item">Hardest Completed Boulder: <%= hardestBoulder.difficulty %></li>
+              <li class="list-group-item rounded mt-2">Hardest Completed Boulder: <%= hardestBoulder.difficulty %></li>
               <% } %>
               <% if (hardestRoute) { %>
-              <li class="list-group-item">Hardest Completed Route: <%= hardestRoute.difficulty %></li>
+              <li class="list-group-item rounded mt-2">Hardest Completed Route: <%= hardestRoute.difficulty %></li>
               <% } %>
-              <li class="list-group-item">Likes: <%= sessions[i].likes %></li>
+              <li class="list-group-item rounded mt-2">Likes: <%= sessions[i].likes %></li>
           </ul>
-            <!--delete and like buttons-->
-            <div class="d-flex justify-content-start mt-4">
-              <% if (sessions[i].user == user.id) { %>
-                <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
-                  <button class="btn btn-primary fa fa-trash me-2" type="submit"></button>
+            <!--delete, like, session info buttons-->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                <a class="btn btn-primary btn-sm text-white" href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
+              </div>
+              
+              <div>
+                <form action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST" class="d-inline-block me-2">
+                  <button class="btn btn-primary fa fa-heart text-white" type="submit"></button>
                 </form>
-              <% } %>
-              <form action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
-                <button class="btn btn-primary fa fa-heart" type="submit"></button>
-              </form>
-              <a class="btn btn-outline-primary btn-sm ms-2" href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
+                <% if (sessions[i].user == user.id) { %>
+                  <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST" class="d-inline-block">
+                    <button class="btn btn-primary fa fa-trash text-white" type="submit"></button>
+                  </form>
+                <% } %>
+              </div>
             </div>
+            
           </section>
           
           <!--card footer-->
-          <section class="card-footer">
+          <section class="card-footer rounded">
             <div class="row">
               <div class="col-md-6 pt-3">
                 <form action="/post/commentSession/<%= sessions[i]._id %>" method="POST">
                   <div class="btn-group pb-3">
                     <input type="text" class="form-control" id="title" name="comment" placeholder="Comment">
-                    <button type="submit" class="btn btn-primary" value="Comment">Submit</button>
+                    <button type="submit" class="btn btn-primary text-white" value="Comment">Submit</button>
                   </div>
                 </form>
               </div>

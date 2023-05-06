@@ -27,7 +27,7 @@
     </div>
   </div>
 </nav>
-<h2 class="text-center text-secondary fw-normal text-capitalize"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> 
+<h2 class="text-center text-white fw-normal text-capitalize mt-3"><%= session.username %>'s <%= session.createdAt.toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }) %> 
 Climbing Session</h2>
 <section class="container-lg">
   <input type="hidden" id="sessionsData" value='<%- JSON.stringify(session) %>'>
@@ -108,18 +108,18 @@ Climbing Session</h2>
           datasets: [{
         data: boulderingData.data.filter(d => d > 0), //specifies the data to be plotted in the chart, filtering out any data points with 0 values.
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#8e44ad',
-          '#2ecc71',
-          '#e74c3c',
-          '#1abc9c',
-          '#34495e',
-          '#f1c40f',
-          '#9b59b6',
-          '#3498db',
-          '#95a5a6'
+          '#BA8C22',
+          '#A32E10',
+          '#F3D59E',
+          '#742305',
+          '#CBA353',
+          '#787E83',
+          '#A2ACB4',
+          '#303D32',
+          '#566068',
+          '#150508',
+          '#1B231C',
+          '#BAC9DD'
         ]
       }]
     },
@@ -139,18 +139,18 @@ Climbing Session</h2>
       datasets: [{
         data: routesData.data.filter(d => d > 0),
         backgroundColor: [
-          '#9b59b6',
-          '#e67e22',
-          '#FF6384',
-          '#27ae60',
-          '#f1c40f',
-          '#3498db',
-          '#36A2EB',
-          '#FFCE56',
-          '#8e44ad',
-          '#2ecc71',
-          '#e74c3c',
-          '#1abc9c',
+          '#BA8C22',
+          '#A32E10',
+          '#F3D59E',
+          '#742305',
+          '#CBA353',
+          '#787E83',
+          '#A2ACB4',
+          '#303D32',
+          '#566068',
+          '#150508',
+          '#1B231C',
+          '#BAC9DD',
           '#34495e',
           '#95a5a6', 
           '#7f8c8d',
@@ -184,8 +184,8 @@ Climbing Session</h2>
         label: 'Total Attempts and Tops',
         data: [totalAttempts, totalTops],
         backgroundColor: [
-          '#95a5a6',
-          '#FFCE56'
+          '#BA8C22',
+          '#A32E10'
         ]
       }]
     },
@@ -220,14 +220,14 @@ Climbing Session</h2>
           </div>
           <div class="col-md-8">
             <ul class="card-body">
-              <h4 class="card-title text-secondary">Type of Climb - <%= session.climbs[i].typeOfClimb %></h4>
-              <h6 class="text-secondary" >Difficulty: <%= session.climbs[i].difficulty %></h6>
-              <h6 class="text-secondary">Attempts: <%= session.climbs[i].attempts %></h6>
-              <h6 class="text-secondary">Top: <%= session.climbs[i].top %></h6>
+              <h4 class="card-title text-white text-center">Type of Climb - <%= session.climbs[i].typeOfClimb %></h4>
+              <h6 class="text-white text-center" >Difficulty: <%= session.climbs[i].difficulty %></h6>
+              <h6 class="text-white text-center">Attempts: <%= session.climbs[i].attempts %></h6>
+              <h6 class="text-white text-center">Top: <%= session.climbs[i].top %></h6>
               <% if (session.climbs[i].notes) { %>
-                <h6 class="text-secondary">Notes: <%= session.climbs[i].notes %></h6>
+                <h6 class="text-white text-center">Notes: <%= session.climbs[i].notes %></h6>
               <% } %>
-              <ul class="list-unstyled mb-0">
+              <ul class="list-unstyled mb-0 text-center">
                 <% const tagSet = new Set(session.climbs[i].tags) %>
                 <% for (let tag of tagSet) { %>
                   <span class="badge bg-primary me-1"><%= tag %></span>

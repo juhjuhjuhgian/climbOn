@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
   <div class="container-xxl">
     <a class="navbar-brand p-2">  
-      <span class="fw-bold text-info text-light">
+      <span class="fw-bold text-secondary">
           Climb On - Session Tracker App
       </span>
           <!--toggle button for nav-->
@@ -51,7 +51,7 @@
             <input type="hidden" id="DifficultyInput" name="Difficulty">
           </div>
           <div class="mb-3">
-            <label for="Attempts" class="form-label class="text-primary"">Attempts</label>
+            <label for="Attempts" class="form-label text-primary">Attempts</label>
             <input type="range" class="form-control" id="Attempts" min="1" max="15" name="Attempts" oninput="updateAttemptsValue()">
             <span id="AttemptsValue" class="text-primary">Drag The Slider To Choose Your Attempts</span>
           </div>
@@ -81,7 +81,7 @@
               <label for="Notes">Notes</label>
             </div>
           </div>          
-          <button type="submit" class="btn btn-primary mb-4" value="Submit">Submit Climb</button>
+          <button type="submit" class="btn btn-primary mb-4 text-white" value="Submit">Submit Climb</button>
         </form>
       </div>
     </div>
@@ -135,7 +135,7 @@
       <% } %>
       <div class="text-center">
         <form action="/post/finalizeSession" enctype="multipart/form-data" method="POST">
-          <input class="btn btn-primary" type="submit" value="Finalize Session">
+          <input class="btn btn-primary text-white" type="submit" value="Finalize Session">
         </form>
       </div>
     </div>
