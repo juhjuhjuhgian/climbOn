@@ -1,31 +1,46 @@
 <%- include('partials/header') -%>
-
-<%- include('partials/header') -%>
-
-<div class="container text-center">
-  <div class="row" style="height: 80vh;">
-    <div class="col-md-6 col-index-8 bg-secondary bg-opacity-40">
-      <div class="title">
-        <h5 class="text-white d-inline-block m-0 text-lg">"Climbing?"</h5>
-        <h1 class="text-white fw-bold d-inline-block m-0 text-uppercase text-lg">"Climb On!"</h1>
-        <h3 class="text-white mt-4 title-text text-lg">Welcome to the Climb On, Climbing Session Tracker. <br><br>This community is for those who are just getting started climbing, those who have been climbing for years, and everyone in between. <br><br>Come be a part of the climbing community.</h3>
-      </div>          
+<div class="row">
+    <div class="container my-5 text-center">
+        <div class="row m-2">
+          <div class="col-md-5 mb-3 mb-md-0 offset-md-1">
+            <div class="card bg-secondary bg-opacity-40 shadow h-100 mx-auto">
+              <div class="card-body d-flex align-items-center ms-1">
+                <div class="text-lg">
+                  <h5 class="text-white d-inline-block ms-2 lead">"Climbing?"</h5><br>
+                  <h1 class="text-info fw-bold d-inline-block text-uppercase">"Climb On."</h1>
+                  <h3 class="text-white mt-4 title-text lead">Welcome to the Climb On, The Climbing Session Tracker App. <br><br>This community is for those who are just getting started rock climbing, those who have been climbing for years, and everyone in between. <br><br>Come be a part of our climbing community today.</h3>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-3 mx-auto mt-4 text-center">
+            <div class="card ms-2 p-4 bg-secondary bg-opacity-40 shadow ">
+              <div>
+                <h3 class="text-white lead">Getting another sesh in? <br> Welcome back. <br>Click below to login.</h3>
+                <a href="/login" class="btn btn-info text-white mt-2  justify-content-end">Login</a> 
+                </div>
+                <div>
+                <h3 class="signup text-white mt-4 lead">First time? No worries. <br>Sign up below.</h3>
+                <a href="/signup" class="btn btn-info text-white mt-2">Signup</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4 col-index-4 bg-secondary bg-opacity-40">
-      <h3 class="text-white text-lg">Getting another sesh in? Welcome back. <br>Click below to login.</h3>
-      <a href="/login" class="col-3 btn btn-info text-white mt-2 text-lg">Login</a>
-      <h3 class="signup text-white text-lg">First time? No worries. <br>Sign up below.</h3>
-      <a href="/signup" class="col-3 btn btn-info text-white mt-2 text-lg">Signup</a>
-    </div>
-  </div>
-  <div class="row" style="height: 20vh;">
-    <div class="col col-index-sm bg-info bg-opacity-50">col-sm</div>
-    <div class="col col-index-sm bg-info bg-opacity-50">col-sm</div>
-    <div class="col col-index-sm bg-info bg-opacity-50">col-sm</div>
-  </div>
 </div>
-
+<div class="container">
+    <div class="row justify-content-center align-items-center py-5">
+      <div class="col-md-3 rounded p-4 shadow bg-info">
+          <h3 class="text-primary text-center">Track Current Sessions</h3>
+          <h5 class="text-white text-center mt-2 lead">Whether you're climbing boulders or routes, Climb On helps you log individual climbs to a session. Once done, finalize your session and the app will save it in your history of climbs.</h5>
+      </div>
+      <div class="col-md-3 rounded p-4 shadow mx-3 bg-info mt-2">
+          <h3 class="text-primary text-center">Engage With Friends</h3>
+          <h5 class="text-white text-center lead">Checkout the Feed page, where you can see how other climbers in the community are doing. You can like and comment on sessions and browse at the pictures of routes/boulders they've uploaded.</h5>
+      </div>
+      <div class="col-md-3 rounded p-4 shadow bg-info mt-2">
+          <h3 class="text-primary text-center">Track Your History</h3>
+          <h5 class="text-white text-center lead">In your profile you can look at climbs that only you have completed. Click on a climbing session to dive into more detailed information, like type of climb and overall difficulty breakdown of the session.</h5>
+      </div>
+    </div>
+</div>
 <%- include('partials/footer') -%> 
-
-  
-<%- include('partials/footer') -%>

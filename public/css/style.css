@@ -2,7 +2,10 @@
   border: none;
 }
 body {
-  background-color: #bac9dd; 
+  background: url(/imgs/Yosemite.png) no-repeat center center fixed;
+  padding: 50px 50px 0 50px;
+  margin: 0px auto;
+  background-position: right -100px;
 }
 .card {
   overflow-y: auto;
@@ -15,27 +18,6 @@ body {
   border: 1px solid #6c757d;
   border-radius: 10px;
 }
-/* .col-index-8{
-  border-radius: 100px;
-  padding: 50px;
-  margin-top: 50px;
-  margin-bottom: 100px;
-  margin-right: 100px;
-  margin-left: 80px;
-}
-.col-index-4{
-  border-radius: 100px;
-  padding: 50px;
-  margin-top: 50px;
-  margin-bottom: 100px;
-  margin-left: 30px;
-}
-.col-index-sm{
-  border-radius: 100px;
-  margin-left: 50px;
-  margin-bottom: 35px;
-
-} */
 .container-profile{
   max-width: 1200px;
   padding: 20px;
@@ -62,4 +44,11 @@ input[type="range"], #Notes, select {
 }
 .title{
   margin-right: 150px;
+}
+
+@media screen and (max-width: 767px) {
+body {
+    /* Set a specific portion of the image to display */
+    background-position: center -75px;
+  }
 }
