@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
   <div class="container-xxl">
     <a class="navbar-brand p-2">  
-      <span class="fw-bold text-secondary">
+      <span class="text-secondary lead">
           Climb On - Session Tracker App
       </span>
           <!--toggle button for nav-->
@@ -27,13 +27,13 @@
     </div>
   </div>
 </nav>
-<h2 class="text-center mt-2 text-white">Log A Session</h2>
+<h2 class="text-center mt-2 text-info">Log A Session</h2>
 
-<div class="row mt-4 ms-1">
+<div class="row mt-4 m-1">
   <div class="col-md-6 offset-md-1">
     <div class="card border-primary shadow">
       <div class="card-header bg-secondary">
-        <h2 class="text-center text-white m-0">Add A New Climb To Start A Session</h2>
+        <h2 class="text-center text-white m-0 lead">Add A New Climb To Start A Session</h2>
       </div>
       <div class="card-body">
         <form action="/post/addClimbToSession" enctype="multipart/form-data" method="POST">
@@ -89,7 +89,7 @@
 
   <div class="col-md-4 col-11 card border-primary shadow ms-3">
     <div class="card-header bg-secondary text-white">
-      <h2 class="text-white text-center">Current Session</h2>
+      <h2 class="text-white text-center lead">Current Session</h2>
     </div>
     <br>
       <% for (let i = 0; i < climbs.length; i++) { %>
