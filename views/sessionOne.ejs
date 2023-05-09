@@ -91,7 +91,7 @@ Climbing Session</h2>
         climbs.forEach(climb => {
         const difficulty = climb.difficulty;
         if (climb.typeOfClimb === 'Bouldering') {
-            const difficultyIndex = parseInt(difficulty.slice(1)) + 1; // add 1 to get the correct index, was getting wrong difficulty
+          const difficultyIndex = boulderingData.labels.indexOf(difficulty);
             boulderingData.data[difficultyIndex]++;
         } else {
             routesData.data[routesData.labels.indexOf(difficulty)]++;

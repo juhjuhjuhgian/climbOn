@@ -31,9 +31,9 @@
 <!--card header-->
 
 <div class="container container-smaller text-center my-4">
-  <div class="p-4 mt-4 mb-4 bg-light" style="border-radius: 10px">
+  <div class="p-4 mt-4 mb-4 bg-info" style="border-radius: 10px">
     <p class="fs-3 text-center text-white">The Feed</p>
-    <p class="text-white">Check out how everyone has been climbing by clicking on the pictures dropdown and seeing who's commented on the page. Dive into each session by clicking on Session Info, where you'll see more information on the climbs from each session. Don't forget to like and leave a comment!</p>
+    <p class="text-white">Check out what everyone has been climbing by clicking on the pictures dropdown and seeing who's commented on the page. Dive into each session by clicking on Session Info, where you'll see more information on the climbs from each session. Don't forget to like and leave a comment!</p>
   </div>
 </div>
 
@@ -81,11 +81,11 @@
               <li class="list-group-item mt-2 rounded">Total Climbs This Session: <%= sessions[i].climbs.length %></li>
               <% let hardestBoulder, hardestRoute %>
               <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
-              <% const climb = sessions[i].climbs[j] %>
-                  <% if (climb.top === 'Yes') { %>
-                  <% if (climb.typeOfClimb === 'Bouldering' && (!hardestBoulder || climb.difficulty > hardestBoulder.difficulty)) { %>
+                <% const climb = sessions[i].climbs[j] %>
+                <% if (climb.top === 'Yes') { %>
+                  <% if (climb.typeOfClimb === 'Bouldering' && climb.difficulty.slice(1) !== "B" && (!hardestBoulder || parseInt(climb.difficulty.slice(1)) > parseInt(hardestBoulder.difficulty.slice(1)))) { %>
                     <% hardestBoulder = climb %>
-                      <% } else if (climb.typeOfClimb === 'Routes' && (!hardestRoute || climb.difficulty > hardestRoute.difficulty)) { %>
+                  <% } else if (climb.typeOfClimb === 'Routes' && (!hardestRoute || parseInt(climb.difficulty) > parseInt(hardestRoute.difficulty))) { %>
                     <% hardestRoute = climb %>
                   <% } %>
                 <% } %>
@@ -97,7 +97,7 @@
               <li class="list-group-item rounded mt-2">Hardest Completed Route: <%= hardestRoute.difficulty %></li>
               <% } %>
               <li class="list-group-item rounded mt-2">Likes: <%= sessions[i].likes %></li>
-          </ul>
+            </ul>
             <!--delete, like, session info buttons-->
             <div class="d-flex justify-content-between align-items-center mt-3">
               <div>

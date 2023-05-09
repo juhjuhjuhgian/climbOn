@@ -2,10 +2,7 @@
   border: none;
 }
 body {
-  background: url(/imgs/Yosemite.png) no-repeat center center fixed;
-  padding: 50px 50px 0 50px;
-  margin: 0px auto;
-  background-position: right -100px;
+  background-color: #f3d59e 
 }
 .card {
   overflow-y: auto;
