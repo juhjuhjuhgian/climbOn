@@ -5,13 +5,11 @@
       <span class="text-secondary">
           Climb On - Session Tracker App
       </span>
-          <!--toggle button for nav-->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> 
     </a>
 
-    <!--navbar links--> 
     <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -36,46 +34,45 @@
       <canvas id="myChart"></canvas> <%/*Canvas element to render the chart*/%>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <%/*Chart.js library script*/%>
       <script>
-        const sessions = JSON.parse(document.getElementById('sessionsData').value); // Parses the JSON data from the hidden input field and assigns it to the sessions variable
-        const ctx = document.getElementById('myChart').getContext('2d'); // Retrieves the 2D context of the canvas element
+        const sessions = JSON.parse(document.getElementById('sessionsData').value); 
+        const ctx = document.getElementById('myChart').getContext('2d');
         const labels = []; 
         const data = []; 
 
-        // Loop through the sessions array to count sessions for the last 6 months
         for (let i = 5; i >= 0; i--) {
-          const date = new Date(); // Gets current date
-          date.setMonth(date.getMonth() - i); // Subtracts the loop index from the current month to get the month for the current iteration
-          const month = date.toLocaleString('default', { month: 'long' }); // Formats the month as a long string
-          let count = 0; // Initializes the count of sessions for the current month to zero
-          sessions.forEach(session => { // Loops through each session
-            const sessionDate = new Date(session.createdAt); // Gets the creation date of the current session
-            if (session.user === '<%= user.id %>' && sessionDate.getMonth() === date.getMonth() && sessionDate.getFullYear() === date.getFullYear()) { // Checks if current session was created by logged-in user & occurred during current month/year
+          const date = new Date(); 
+          date.setMonth(date.getMonth() - i); 
+          const month = date.toLocaleString('default', { month: 'long' }); 
+          let count = 0; 
+          sessions.forEach(session => { 
+            const sessionDate = new Date(session.createdAt); 
+            if (session.user === '<%= user.id %>' && sessionDate.getMonth() === date.getMonth() && sessionDate.getFullYear() === date.getFullYear()) { 
               count++; 
             }
           });
-          labels.push(month); // Adds the month label to the labels array
-          data.push(count); // Adds the session count to the data array
+          labels.push(month); 
+          data.push(count);
         }
 
-        const chartData = { // Object containing the data for the chart
-          labels: labels, // The labels array
+        const chartData = {
+          labels: labels, 
           datasets: [{
-            label: 'Number of Sessions', // The label for the dataset
-            backgroundColor: 'rgba(49, 108, 244, 0.2)', // The background color for the dataset
-            borderColor: 'rgba(49, 108, 244, 1)', // The border color for the dataset
-            borderWidth: 1, // The border width for the dataset
-            data: data // The data array
+            label: 'Number of Sessions', 
+            backgroundColor: 'rgba(49, 108, 244, 0.2)', 
+            borderColor: 'rgba(49, 108, 244, 1)', 
+            borderWidth: 1, 
+            data: data 
           }]
         };
 
-        const myChart = new Chart(ctx, { // Initializes new Chart.js chart with the 2D context and chart data
-          type: 'bar', // The type of chart
-          data: chartData, // The chart data object
+        const myChart = new Chart(ctx, { 
+          type: 'bar',
+          data: chartData,
           options: {
             scales: {
               yAxes: [{
                 ticks: {
-                  beginAtZero: true // Sets the y-axis scale to start at zero
+                  beginAtZero: true 
                 }
               }]
             }
@@ -91,14 +88,13 @@
             <div class="card-profile mb-3">
               <div class="row g-0">
                 <div class="col-md-4 mt-3">
-                  <% const tagSet = new Set() %> <!-- Creates a new Set object -->
+                  <% const tagSet = new Set() %>
                   <% const images = sessions[i].climbs.filter(climb => climb.image).map(climb => climb.image) %>
                   <% if (images.length === 0) { %>
                     <img src="/imgs/Event_StillClosed.jpeg" class="img-fluid rounded-start profileImgs">
                   <% } else if (images.length === 1) { %>
                     <img src="<%= images[0] %>" class="img-fluid rounded-start profileImgs">
                   <% } else if (images.length > 1) { %>
-                    <!-- carousel code -->
                     <div id="carousel<%= i %>" class="carousel slide" data-bs-ride="carousel">
                       <div class="carousel-inner">
                         <% for (var j = 0; j < images.length; j++) { %>
@@ -127,8 +123,6 @@
                       </div>
                     </div>
                     <p class="card-text pt-3">Total number of climbs in this session: <%= sessions[i].climbs.length %></p>
-                    <!-- Declares variable that holds hardest climb, iterates through each climbs to check if it was topped out-->
-                    <!-- Then checks what discipline of climbing and if it's harder than the currest hardest climb-->
                     <% let hardestBoulder, hardestRoute %>
                     <% for (var j = 0; j < sessions[i].climbs.length; j++) { %>
                       <% const climb = sessions[i].climbs[j] %>
@@ -140,7 +134,6 @@
                         <% } %>
                       <% } %>
                     <% } %>
-                    <!-- Checking to see if either variable is truthy, will display difficulty of hardest climb in that category-->
                     <% if (hardestBoulder) { %>
                       <p class="card-text">Hardest Boulder: <%= hardestBoulder.difficulty %></p>
                     <% } %>

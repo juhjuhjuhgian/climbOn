@@ -6,14 +6,14 @@ typeOfClimb.addEventListener("change", function() {
   if (typeOfClimb.value === "Bouldering") {
     difficultySlider.min = 0;
     difficultySlider.max = 12;
-    updateDifficultyValueBouldering(); // update the difficulty labels for bouldering
+    updateDifficultyValueBouldering(); 
   } else {
     difficultySlider.min = 0;
-    difficultySlider.max = 15; // increase the max value to accommodate all route difficulties
-    updateDifficultyValueRoutes(); // update the difficulty labels for routes
+    difficultySlider.max = 15; 
+    updateDifficultyValueRoutes(); 
   }
 
-  updateDifficultyValue(); // update the difficulty value immediately
+  updateDifficultyValue(); 
 });
 
 function updateDifficultyValue() {
@@ -35,7 +35,7 @@ function updateDifficultyValueBouldering() {
   var difficultyValue = boulderingDifficultyLabels[slider.value];
 
   output.innerHTML = difficultyValue;
-  input.value = difficultyValue; // Set the value of the hidden input field to the actual difficulty value
+  input.value = difficultyValue; 
 }
 
 function updateDifficultyValueRoutes() {
@@ -49,7 +49,7 @@ function updateDifficultyValueRoutes() {
   var difficultyValue = routesDifficultyLabels[slider.value];
 
   output.innerHTML = difficultyValue;
-  input.value = difficultyValue; // Set the value of the hidden input field to the actual difficulty value
+  input.value = difficultyValue; 
 }
 
 function updateAttemptsValue() {
