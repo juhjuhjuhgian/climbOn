@@ -3,23 +3,23 @@ const IndividualClimb = require("../models/Individual")
 const ClimbingSession = require("../models/Session")
 const Comment = require("../models/Comment");
 module.exports = {
-    getProfile: async (req, res) => {
-      try {
-        const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
-        res.render("profile.ejs", {user: req.user, sessions: sessions });
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    getFeed: async (req, res) => {
-      try {
-        const comments = await Comment.find().sort({ createdAt: "desc" }).lean();
-        const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
-        res.render("feed.ejs", { sessions: sessions, user: req.user, comments: comments });
-      } catch (err) {
-        console.log(err);
-      }
-    },
+  getProfile: async (req, res) => {
+    try {
+      const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
+      res.render("profile.ejs", {user: req.user, sessions: sessions });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getFeed: async (req, res) => {
+    try {
+      const comments = await Comment.find().sort({ createdAt: "desc" }).lean();
+      const sessions = await ClimbingSession.find().sort({ createdAt: "desc" }).lean();
+      res.render("feed.ejs", { sessions: sessions, user: req.user, comments: comments });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getNewSession: async (req, res) => {
     try {
       let sessionId = req.session.sessionId;
