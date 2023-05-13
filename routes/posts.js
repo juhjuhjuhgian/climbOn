@@ -4,8 +4,6 @@ const upload = require("../middleware/multer");
 const postsController = require("../controllers/posts");
 const { ensureAuth } = require("../middleware/auth");
 
-router.get("/:id", ensureAuth, postsController.getPost);
-
 router.get("/editIndividualClimb/:id", ensureAuth, postsController.getEdit);
 
 router.get("/viewSession/:id", ensureAuth, postsController.getOneSession)

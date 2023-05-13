@@ -37,14 +37,6 @@ module.exports = {
       console.log(err);
     }
   },
-  getPost: async (req, res) => {
-    try {
-      const post = await Post.findById(req.params.id);
-      res.render("post.ejs", { post: post, user: req.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
   getEdit: async (req, res) => {
     try {
       const climb = await IndividualClimb.findById(req.params.id);
