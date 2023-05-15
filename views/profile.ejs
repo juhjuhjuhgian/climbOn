@@ -154,13 +154,10 @@
                       <% } %>
                     <% } %>                    
                     <div class="d-flex justify-content-start pt-4">
-                      <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-primary fa fa-trash me-2 text-white" type="submit"></button>
-                      </form>
-                      <form action="/post/likePost/<%= sessions[i]._id %>?_method=PUT" method="POST">
-                        <button class="btn btn-primary fa fa-heart text-white" type="submit"></button>
-                      </form>
                       <a class="btn btn-primary btn-sm text-white ms-2" href="/post/viewSession/<%= sessions[i]._id %>" method="GET">Session Info</a>
+                      <form action="/post/deleteSession/<%= sessions[i]._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-primary fa fa-trash ms-2 text-white" type="submit"></button>
+                      </form>
                     </div>
                   </div>
                 </div>
