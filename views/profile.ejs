@@ -29,10 +29,10 @@
 <div class="container">
   <div class="row mt-5">
 
-    <input type="hidden" id="sessionsData" value='<%- JSON.stringify(sessions) %>'> <%/*Hidden input field that contains the stringified JSON data of all sessions*/%>
+    <input type="hidden" id="sessionsData" value='<%- JSON.stringify(sessions) %>'>
     <section>
-      <canvas id="myChart"></canvas> <%/*Canvas element to render the chart*/%>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <%/*Chart.js library script*/%>
+      <canvas id="myChart"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
         const sessions = JSON.parse(document.getElementById('sessionsData').value); 
         const ctx = document.getElementById('myChart').getContext('2d');
