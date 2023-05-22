@@ -1,8 +1,14 @@
 .accordion-item:not(.collapsed) {
   border: none;
 }
-body {
-  background-color: #f3d59e 
+.welcomeImgs {
+  background-image: url('/imgs/Yosemite.png');
+  padding: 50px 50px 0 50px;
+  margin: 0px auto;
+  background-position: right -100px;
+}
+body{
+  background-color: #f3d59e;
 }
 .card {
   overflow-y: auto;
@@ -42,7 +48,6 @@ input[type="range"], #Notes, select {
 .title{
   margin-right: 150px;
 }
-
 @media screen and (max-width: 767px) {
 body {
     background-position: center -75px;

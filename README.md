@@ -4,6 +4,11 @@ I set out to build a climbing app I could call my own and have features that I b
 
 **Link to project:** https://climbon.onrender.com
 
+**Try it using the demo account:**
+
+username: demo@demo.com
+password: demodemo
+
 <img src="https://github.com/juhjuhjuhgian/juhjuhjuhgian/blob/main/climb.gif" alt="Climbing Session App" height="auto" width="100%" />
 
 ## How It's Made:
